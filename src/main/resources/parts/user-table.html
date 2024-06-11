@@ -1,0 +1,150 @@
+<table class="table table-striped">
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Age</th>
+        <th>Email</th>
+        <th>Update</th>
+        <th>Remove</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="user : ${users}">
+        <td th:text="${user.id}"></td>
+        <td th:text="${user.name}"></td>
+        <td th:text="${user.age}"></td>
+        <td th:text="${user.email}"></td>
+        <td>
+            <button type="button" class="btn btn-primary" data-toggle="modal"
+                    data-target="#editUserModal">
+                Edit User
+            </button>
+            <div class="modal fade text-center" id="editUserModal" tabindex="-1" role="dialog"
+                 aria-labelledby="editUserModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="editUserModalLabel">Update User</h5>
+                            <button type="button" class="close" data-dismiss="modal"
+                                    aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <form id="editUserForm">
+                                <div class="form-group">
+                                    <label for="userId">ID</label>
+                                    <input type="number" class="form-control"
+                                           id="${user.id}"
+                                           disabled>
+                                </div>
+                                <div class="form-group">
+                                    <label for="userName">Name:</label>
+                                    <input type="text" class="form-control"
+                                           id="${user.name}"
+                                           name="name">
+                                </div>
+                                <div class="form-group">
+                                    <label for="userAge">Age:</label>
+                                    <input type="number" class="form-control"
+                                           id="${user.age}"
+                                           name="age">
+                                </div>
+                                <div class="form-group">
+                                    <label for="userEmail">Email:</label>
+                                    <input type="email" class="form-control"
+                                           id="${user.email}"
+                                           name="email">
+                                </div>
+                                <div class="form-group">
+                                    <label for="userPassword">Password:</label>
+                                    <input type="password" class="form-control"
+                                           id="${user.password}" name="password">
+                                </div>
+                                <div class="form-group">
+                                    <label for="userRoles">Roles:</label>
+                                    <select multiple class="form-control" id="${user.roles}"
+                                            name="roles">
+
+                                        <option value="admin">Admin</option>
+                                        <option value="user">User</option>
+                                    </select>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary"
+                                    data-dismiss="modal">Close
+                            </button>
+                            <button type="button" class="btn btn-primary" id="updateUserButton">
+                                Update
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </td>
+        <td>
+            <button type="button" class="btn btn-danger" data-toggle="modal"
+                    data-target="#deleteUserModal">
+                Delete
+            </button>
+            <div class="modal fade text-center" id="deleteUserModal" tabindex="-1" role="dialog"
+                 aria-labelledby="deleteUserModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="deleteUserModalLabel">Delete User</h5>
+                            <button type="button" class="close" data-dismiss="modal"
+                                    aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <form>
+                                <div class="form-group">
+                                    <label for="userId">ID</label>
+                                    <input type="number" class="form-control" id="userId"
+                                           disabled>
+                                </div>
+                                <div class="form-group">
+                                    <label for="userName">Name</label>
+                                    <input type="text" class="form-control" id="userName"
+                                           disabled>
+                                </div>
+                                <div class="form-group">
+                                    <label for="userAge">Age</label>
+                                    <input type="text" class="form-control" id="userAge"
+                                           disabled>
+                                </div>
+                                <div class="form-group">
+                                    <label for="userEmail">Email</label>
+                                    <input type="text" class="form-control" id="userEmail"
+                                           disabled>
+                                </div>
+                                <div class="form-group">
+                                    <label for="userPassword">Password</label>
+                                    <input type="password" class="form-control"
+                                           id="userPassword" disabled>
+                                </div>
+                                <div class="form-group">
+                                    <label for="userRoles">Roles</label>
+                                    <input type="text" class="form-control" id="userRoles"
+                                           disabled>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary"
+                                    data-dismiss="modal">Close
+                            </button>
+                            <button type="button" class="btn btn-danger">Delete</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </td>
+    </tr>
+    </tbody>
+</table>

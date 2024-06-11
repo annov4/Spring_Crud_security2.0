@@ -66,23 +66,23 @@ public class UserServiceImpl implements UserService {
         return userRepository.findByName(username) != null;
     }
     @Override
-    public void updateUser(User user1) {
-        User user2 = userRepository.findById(user1.getId())
+    public void updateUser(User user) {
+        User updatedUser = userRepository.findById(user.getId())
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
-        user2.setName(user2.getName());
-        user2.setAge(user2.getAge());
-        user2.setEmail(user2.getEmail());
+        updatedUser.setName(user.getName());
+        updatedUser.setAge(user.getAge());
+        updatedUser.setEmail(user.getEmail());
 
-        if (user2.getPassword() != null && !user2.getPassword().isEmpty()) {
-            user2.setPassword(passwordEncoder.encode(user2.getPassword()));
+        if (user.getPassword() != null && !user.getPassword().isEmpty()) {
+            updatedUser.setPassword(passwordEncoder.encode(user.getPassword()));
         }
 
-        if (user2.getRoles() != null && !user2.getRoles().isEmpty()) {
-            user2.setRoles(user2.getRoles());
+        if (user.getRoles() != null && !user.getRoles().isEmpty()) {
+            updatedUser.setRoles(user.getRoles());
         }
 
-        userRepository.save(user2);
+        userRepository.save(updatedUser);
     }
     @PostConstruct
     public void init() {
@@ -92,7 +92,7 @@ public class UserServiceImpl implements UserService {
 
         User admin = new User();
         admin.setName("admin");
-        admin.setEmail("example1@mail.vo");
+        admin.setEmail("admin@mail.ru");
         admin.setPassword(passwordEncoder.encode("1111"));
         admin.setRoles(new HashSet<>(Collections.singletonList(adminRole)));
         userRepository.save(admin);

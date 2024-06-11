@@ -31,14 +31,14 @@ public class AdminController {
     @GetMapping("/user-create")
     public String createUserForm(Model model) {
         model.addAttribute("user", new User());
-        return "user-create";
+        return "new-user";
     }
 
     @PostMapping("/user-create")
     public String saveUser(@ModelAttribute("user") User user, Model model) {
         if (userServiceImpl.userExists(user.getName())) {
             model.addAttribute("error", "User with the same name already exists.");
-            return "user-create";
+            return "new-user";
         }
         userServiceImpl.saveUser(user);
         return "redirect:/admin/users";
@@ -53,15 +53,14 @@ public class AdminController {
     }
 
     @PostMapping("/user-update")
-    public String updateUser(@ModelAttribute("user") User user, @RequestParam("roles") List<Long> roles) {
-        Set<Role> userRoles = roles.stream()
+    public String updateUser(@ModelAttribute("user") User user, @RequestParam("roles") Set<Long> roleIds) {
+        Set<Role> userRoles = roleIds.stream()
                 .map(roleService::getRoleById)
                 .collect(Collectors.toSet());
         user.setRoles(userRoles);
         userServiceImpl.updateUser(user);
         return "redirect:/admin/users";
     }
-
     @GetMapping("/delete/{id}")
     public String deleteUser(@PathVariable("id") Long id) {
         userServiceImpl.deleteUserById(id);
