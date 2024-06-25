@@ -1,6 +1,5 @@
 package annov4.crud.crud.service;
 
-import annov4.crud.crud.model.Role;
 import annov4.crud.crud.model.User;
 import org.springframework.security.core.userdetails.UserDetailsService;
 

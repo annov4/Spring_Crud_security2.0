@@ -2,68 +2,61 @@ package annov4.crud.crud.controller;
 
 import annov4.crud.crud.model.Role;
 import annov4.crud.crud.model.User;
-import annov4.crud.crud.service.RoleService;
+import annov4.crud.crud.service.RoleServiceImpl;
 import annov4.crud.crud.service.UserServiceImpl;
 import lombok.AllArgsConstructor;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-@Controller
+@RestController
 @AllArgsConstructor
-@RequestMapping("/admin")
+@RequestMapping()
 public class AdminController {
 
-    private final UserServiceImpl userServiceImpl;
-    private final RoleService roleService;
+    private final UserServiceImpl userService;
+    private final RoleServiceImpl roleService;
 
     @GetMapping("/users")
-    public String listUsers(Model model) {
-        List<User> users = userServiceImpl.getAllUsers();
-        model.addAttribute("users", users);
-        return "users";
-    }
-
-    @GetMapping("/user-create")
-    public String createUserForm(Model model) {
-        model.addAttribute("user", new User());
-        return "new-user";
+    public ResponseEntity<List<User>> listUsers() {
+        List<User> users = userService.getAllUsers();
+        return new ResponseEntity<>(users, HttpStatus.OK);
     }
 
     @PostMapping("/user-create")
-    public String saveUser(@ModelAttribute("user") User user, Model model) {
-        if (userServiceImpl.userExists(user.getName())) {
-            model.addAttribute("error", "User with the same name already exists.");
-            return "new-user";
+    public ResponseEntity<String> saveUser(@RequestBody User user) {
+        if (userService.userExists(user.getName())) {
+            return ResponseEntity.badRequest().body("User with the same name already exists");
         }
-        userServiceImpl.saveUser(user);
-        return "redirect:/admin/users";
+        userService.saveUser(user);
+        return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
-    @GetMapping("/user-update/{id}")
-    public String updateUserForm(@PathVariable("id") Long id, Model model) {
-        User user = userServiceImpl.getUserById(id);
-        model.addAttribute("roles", roleService.getAllRoles());
-        model.addAttribute("user", user);
-        return "user-update";
+
+    @GetMapping("/user/{id}")
+    public ResponseEntity<User> getUserById(@PathVariable("id") Long id) {
+        User user = userService.getUserById(id);
+        return user != null
+                ? new ResponseEntity<>(user, HttpStatus.OK)
+                : new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
-    @PostMapping("/user-update")
-    public String updateUser(@ModelAttribute("user") User user, @RequestParam("roles") Set<Long> roleIds) {
-        Set<Role> userRoles = roleIds.stream()
+    @PutMapping("/user-update")
+    public ResponseEntity<String> updateUser(@RequestBody User user, @RequestParam Set<Long> roles) {
+        Set<Role> userRoles = roles.stream()
                 .map(roleService::getRoleById)
                 .collect(Collectors.toSet());
         user.setRoles(userRoles);
-        userServiceImpl.updateUser(user);
-        return "redirect:/admin/users";
+        userService.updateUser(user);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
-    @GetMapping("/delete/{id}")
-    public String deleteUser(@PathVariable("id") Long id) {
-        userServiceImpl.deleteUserById(id);
-        return "redirect:/admin/users";
+    @DeleteMapping("/user-delete/{id}")
+    public ResponseEntity<String> deleteUser(@PathVariable("id") Long id) {
+        userService.deleteUserById(id);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }
