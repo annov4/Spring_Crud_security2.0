@@ -4,34 +4,31 @@ import annov4.crud.crud.model.Role;
 import annov4.crud.crud.model.User;
 import annov4.crud.crud.repository.RoleRepository;
 import annov4.crud.crud.repository.UserRepository;
+import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.List;
+import java.util.*;
 
 @Service
+@RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
     private final PasswordEncoder passwordEncoder;
 
-    public UserServiceImpl(UserRepository userRepository, RoleRepository roleRepository, PasswordEncoder passwordEncoder) {
-        this.userRepository = userRepository;
-        this.roleRepository = roleRepository;
-        this.passwordEncoder = passwordEncoder;
-    }
-
     @Override
     public void saveUser(User user) {
+            User existingUser = userRepository.findByName(user.getName());
+            if (existingUser != null) {
+                throw new RuntimeException("User with this name already exists");
+        }
         user.setPassword(passwordEncoder.encode(user.getPassword()));
-        user.setRoles(Collections.singleton(new Role(2L, "ROLE_USER")));
         userRepository.save(user);
     }
 
@@ -57,11 +54,6 @@ public class UserServiceImpl implements UserService {
             throw new UsernameNotFoundException("User not found");
         }
         return user;
-    }
-
-    @Override
-    public boolean userExists(String username) {
-        return userRepository.findByName(username) != null;
     }
     @Override
     public void updateUser(User user) {

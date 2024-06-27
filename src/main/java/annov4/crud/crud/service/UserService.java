@@ -15,6 +15,4 @@ public interface UserService extends UserDetailsService {
 
     void deleteUserById(Long id);
 
-    boolean userExists(String username);
-
 }

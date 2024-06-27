@@ -7,6 +7,7 @@ import annov4.crud.crud.service.UserServiceImpl;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -15,7 +16,8 @@ import java.util.stream.Collectors;
 
 @RestController
 @AllArgsConstructor
-@RequestMapping()
+@RequestMapping("/api/admin")
+@PreAuthorize("hasRole('ROLE_ADMIN')")
 public class AdminController {
 
     private final UserServiceImpl userService;
@@ -29,9 +31,6 @@ public class AdminController {
 
     @PostMapping("/user-create")
     public ResponseEntity<String> saveUser(@RequestBody User user) {
-        if (userService.userExists(user.getName())) {
-            return ResponseEntity.badRequest().body("User with the same name already exists");
-        }
         userService.saveUser(user);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
