@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface UserService extends UserDetailsService {
     void saveUser(User user);
-    void updateUser(User user);
+    boolean updateUser(User user, Long id);
 
     List<User> getAllUsers();
 

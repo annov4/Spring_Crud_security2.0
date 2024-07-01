@@ -45,13 +45,15 @@ public class AdminController {
     }
 
     @PutMapping("/user-update")
-    public ResponseEntity<String> updateUser(@RequestBody User user, @RequestParam Set<Long> roles) {
-        Set<Role> userRoles = roles.stream()
-                .map(roleService::getRoleById)
-                .collect(Collectors.toSet());
-        user.setRoles(userRoles);
-        userService.updateUser(user);
-        return new ResponseEntity<>(HttpStatus.OK);
+    public ResponseEntity<?> updateUser(@RequestBody User user, @RequestParam Set<Long> roleIds) {
+        Set<Role> roles = roleIds.stream().map(roleService::getRoleById).collect(Collectors.toSet());
+        user.setRoles(roles);
+
+        if (userService.updateUser(user, user.getId())) {
+            return new ResponseEntity<>(HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
     @DeleteMapping("/user-delete/{id}")
     public ResponseEntity<String> deleteUser(@PathVariable("id") Long id) {
