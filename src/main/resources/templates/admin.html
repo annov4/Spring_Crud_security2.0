@@ -21,21 +21,20 @@
     <div><a class="text-light" th:href="@{/logout}">Logout</a></div>
 </div>
 <!-- Navigation -->
-<div class="container-fluid row">
-    <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse">
-        <div class="position-sticky pt-3">
-            <ul class="nav flex-column nav-pills border-0" id="myTab3" role="tablist">
-                <li class="nav-item mt-3" role="presentation">
-                    <a class="nav-link btn btn-primary pl-5 pr-5 active" id="admin-area-tab" data-toggle="tab" href="#admin-area" role="tab" aria-controls="admin-area" aria-selected="true">Admin</a>
-                </li>
-                <li class="nav-item mb-3" role="presentation">
-                    <a class="nav-link btn btn-light pl-5 pr-5" id="user-area-tab" data-toggle="tab" href="#user-area" role="tab" aria-controls="user-area" aria-selected="false">User</a>
-                </li>
-            </ul>
-            </ul>
-        </div>
-    </nav>
-
+            <div class="container-fluid row">
+                <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse">
+                    <div class="position-sticky pt-3">
+                        <ul class="nav flex-column nav-pills border-0" id="myTab3" role="tablist">
+                            <li class="nav-item mt-3" role="presentation">
+                                <a class="nav-link btn btn-primary pl-5 pr-5 active" id="admin-area-tab" data-toggle="tab" href="#admin-area" role="tab" aria-controls="admin-area" aria-selected="true">Admin</a>
+                            </li>
+                            <li class="nav-item mb-3" role="presentation">
+                                <a class="nav-link btn btn-light pl-5 pr-5" id="user-area-tab" data-toggle="tab" href="#user-area" role="tab" aria-controls="user-area" aria-selected="false">User</a>
+                            </li>
+                        </ul>
+                        </ul>
+                    </div>
+                </nav>
     <main class="col-9">
         <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
             <h1 class="h2">Admin panel</h1>
@@ -52,21 +51,21 @@
         </ul>
         <!-- Таблица с юзерами -->
         <div class="tab-content" id="usersTable">
-            <div class="tab-pane fade show active" id="users-table" role="tabpanel" aria-labelledby="users-table-tab">
+            <div class="tab-pane fade show active" id="users-table" role="tabpanel" aria-labelledby="users-table">
                 <h2 class="sub-header">All users</h2>
                 <table class="table table-striped">
                     <thead>
                     <tr>
                         <th>ID</th>
-                        <th>Name</th>
                         <th>Age</th>
                         <th>Email</th>
+                        <th>Name</th>
                         <th>Role</th>
-                        <th>Update</th>
-                        <th>Remove</th>
+                        <th>Edit</th>
+                        <th>Delete</th>
                     </tr>
                     </thead>
-                    <tbody id="userTableBody"></tbody>
+                    <tbody id="usersTableBody"></tbody>
                 </table>
             </div>
             <!-- New User Form -->
@@ -224,130 +223,5 @@
         </div>
     </main>
 </div>
-
-<script>
-    $(document).ready(function () {
-        loadUsers();
-
-        function loadUsers() {
-            $.ajax({
-                url: '/users',
-                method: 'GET',
-                success: function (users) {
-                    var userTableBody = $('#userTableBody');
-                    userTableBody.empty();
-                    $.each(users, function (index, user) {
-                        userTableBody.append(
-                            `<tr>
-                                <td>${user.id}</td>
-                                <td>${user.username}</td>
-                                <td>${user.age}</td>
-                                <td>${user.email}</td>
-                                <td>${user.role}</td>
-                                <td><button class="editUserBtn" data-id="${user.id}">Edit</button></td>
-                                <td><button class="deleteUserBtn" data-id="${user.id}">Delete</button></td>
-                                </tr>`
-                        );
-                    });
-                }
-            });
-        }
-
-        $('#newUserLink').click(function () {
-            $('#userForm')[0].reset();
-            $('#userId').val('');
-            $('#modalTitle').text('Add User');
-            $('#userModal').modal('show');
-        });
-
-        $(document).on('click', '.editUserBtn', function () {
-            var userId = $(this).data('id');
-            $.ajax({
-                url: `/user/${userId}`,
-                method: 'GET',
-                success: function (user) {
-                    $('#updateDeleteUserId').val(user.id);
-                    $('#updateDeleteUsername').val(user.username);
-                    $('#updateDeleteAge').val(user.age);
-                    $('#updateDeleteEmail').val(user.email);
-                    $('#updateDeletePassword').val(user.password);
-                    $('#updateDeleteRole').val(user.role);
-                    $('#modalTitle').text('Edit User');
-                    $('#updateDeleteModal').modal('show');
-                }
-            });
-        });
-
-        $('#updateUserBtn').click(function () {
-            var userId = $('#updateDeleteUserId').val();
-            var user = {
-                id: userId,
-                username: $('#updateDeleteUsername').val(),
-                age: $('#updateDeleteAge').val(),
-                email: $('#updateDeleteEmail').val(),
-                password: $('#updateDeletePassword').val(),
-                role: $('#updateDeleteRole').val()
-            };
-            $.ajax({
-                url: `/user-update`,
-                method: 'PUT',
-                contentType: 'application/json',
-                data: JSON.stringify(user),
-                success: function () {
-                    $('#updateDeleteModal').modal('hide');
-                    loadUsers();
-                }
-            });
-        });
-
-        $(document).on('click', '.deleteUserBtn', function () {
-            if (confirm('Delete user?')) {
-                var userId = $(this).data('id');
-                $.ajax({
-                    url: `/user-delete/${userId}`,
-                    method: 'DELETE',
-                    success: function () {
-                        loadUsers();
-                    }
-                });
-            }
-        });
-
-        $('#userForm').submit(function (event) {
-            event.preventDefault();
-            var userId = $('#userId').val();
-            var user = {
-                username: $('#username').val(),
-                age: $('#age').val(),
-                email: $('#email').val(),
-                password: $('#password').val(),
-                role: $('#role').val()
-            };
-            if (userId) {
-                $.ajax({
-                    url: `/user-update`,
-                    method: 'PUT',
-                    contentType: 'application/json',
-                    data: JSON.stringify(user),
-                    success: function () {
-                        $('#userModal').modal('hide');
-                        loadUsers();
-                    }
-                });
-            } else {
-                $.ajax({
-                    url: '/user-create',
-                    method: 'POST',
-                    contentType: 'application/json',
-                    data: JSON.stringify(user),
-                    success: function () {
-                        $('#userModal').modal('hide');
-                        loadUsers();
-                    }
-                });
-            }
-        });
-    });
-</script>
 </body>
 </html>

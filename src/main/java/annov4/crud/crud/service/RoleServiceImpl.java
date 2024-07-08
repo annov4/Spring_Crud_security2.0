@@ -1,17 +1,21 @@
 package annov4.crud.crud.service;
 
+import annov4.crud.crud.dao.RoleDao;
 import annov4.crud.crud.model.Role;
-import annov4.crud.crud.repository.RoleRepository;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
-public class RoleServiceImpl implements RoleService{
-    private final RoleRepository roleRepository;
-    public RoleServiceImpl(RoleRepository roleRepository) {
-        this.roleRepository = roleRepository;
-    }
+@AllArgsConstructor
+@Transactional
+public class RoleServiceImpl implements RoleService {
 
-    public Role getRoleById(Long id) {
-        return roleRepository.findById(id).orElse(null);
+    private final RoleDao roleDao;
+    @Override
+    @Transactional
+    public void save(Role role) {
+        roleDao.save(role);
+
     }
 }

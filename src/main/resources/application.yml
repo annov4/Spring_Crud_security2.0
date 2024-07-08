@@ -8,5 +8,5 @@ spring:
       hibernate:
         show_sql: true
         hbm2ddl:
-          auto: create
+          auto: create-drop
           open-in-view: false

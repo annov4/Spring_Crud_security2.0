@@ -3,12 +3,10 @@ package annov4.crud.crud.model;
 import lombok.*;
 import javax.persistence.*;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 @Entity
 @Data
@@ -33,13 +31,15 @@ public class User implements UserDetails {
     private String password;
 
     @ManyToMany(fetch = FetchType.EAGER)
-    private Set<Role> roles;
+    @JoinTable(name = "user_role",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id"))
+    private Set<Role> role;
+
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return roles.stream()
-                .map(role -> new SimpleGrantedAuthority(role.getRole()))
-                .collect(Collectors.toSet());
+        return role;
     }
 
     @Override
@@ -66,6 +66,22 @@ public class User implements UserDetails {
     public boolean isEnabled() {
         return true;
     }
+    public User(String name, int age, String email, String password, Set<Role> role) {
+        this.name = name;
+        this.age = age;
+        this.email = email;
+        this.password = password;
+        this.role = role;
+
+    }
+    public User(long id, String name, int age, String email, String password, Set<Role> role) {
+        this.id = id;
+        this.name = name;
+        this.age = age;
+        this.email = email;
+        this.password = password;
+        this.role = role;
+    }
 
     @Override
     public String toString() {
@@ -75,7 +91,7 @@ public class User implements UserDetails {
                 ", age=" + age +
                 ", email='" + email + '\'' +
                 ", password='" + password + '\'' +
-                ", roles=" + roles +
+                ", role=" + role +
                 '}';
     }
 }
