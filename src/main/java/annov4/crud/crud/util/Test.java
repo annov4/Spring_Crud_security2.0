@@ -13,11 +13,11 @@ import java.util.Set;
 
 
 @Component
-public class Init {
+public class Test {
     private final UserService userService;
     private final RoleService roleService;
 
-    public Init(UserService userService, RoleService roleService) {
+    public Test(UserService userService, RoleService roleService) {
         this.userService = userService;
         this.roleService = roleService;
 
@@ -34,10 +34,10 @@ public class Init {
         Set<Role> userSet = new HashSet<>();
         userSet.add(roleUser);
 
-        User admin = new User("admin",40,"admin@mail.ri", "1111", adminSet);
+        User admin = new User("admin",20,"admin@mail.ru", "admin", adminSet);
         userService.saveUser(admin);
 
-        User user = new User("user",35,"user@mail.ru", "2222", userSet);
+        User user = new User("user",30,"user@mail.ru", "user", userSet);
         userService.saveUser(user);
     }
 }

@@ -48,38 +48,13 @@
                         <th>Role</th>
                     </tr>
                     </thead>
-                    <tbody id="userTableBody">
+                    <tbody id="tableBodyUser">
                     </tbody>
                 </table>
             </div>
         </div>
     </main>
 </div>
-
-<script>
-    $(document).ready(function () {
-        loadUser();
-
-        function loadUser() {
-            $.ajax({
-                url: '/api/user',
-                method: 'GET',
-                success: function (user) {
-                    let userTableBody = $('#userTableBody');
-                    userTableBody.empty();
-                    userTableBody.append(`
-                        <tr>
-                            <td>${user.id}</td>
-                            <td>${user.age}</td>
-                            <td>${user.email}</td>
-                            <td>${user.name}</td>
-                            <td>${user.role.map(r => r.role.substring(5)).join(', ')}</td>
-                        </tr>
-                    `);
-                },
-            });
-        }
-    });
-</script>
+<script type="text/javascript" src="user.js"></script>
 </body>
 </html>
