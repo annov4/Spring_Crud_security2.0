@@ -1,4 +1,4 @@
-const userUrl = 'http://localhost:8080/api/user';
+const userUrl = 'api/user';
 
 $(document).ready(function() {
     function getUserPage() {

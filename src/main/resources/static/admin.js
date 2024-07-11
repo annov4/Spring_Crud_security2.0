@@ -1,4 +1,4 @@
-const adminUrl = 'http://localhost:8080/api/admin';
+const adminUrl = 'api/admin';
 
 function loadTable(listAllUsers) {
     let res = '';
@@ -72,7 +72,8 @@ function editModal(id) {
             $('#editAge').val(u.age);
             $('#editName').val(u.name);
             $('#editEmail').val(u.email);
-            $('#editPassword').val('***');
+            $('#editPassword').val('');
+            $('#currentPassword').val(u.password);
         }
     });
 }
@@ -83,17 +84,19 @@ function editUser() {
     let nameValue = $('#editName').val();
     let emailValue = $('#editEmail').val();
     let passwordValue = $('#editPassword').val();
+    let currentPassword = $('#currentPassword').val();
+    let passwordToUpdate = passwordValue === '' ? currentPassword : passwordValue;
+
     let listOfRole = [];
     $('#editRole option:selected').each(function () {
         listOfRole.push({id: $(this).val(), name: 'ROLE_' + $(this).text()});
     });
-
     let user = {
         id: idValue,
         age: ageValue,
         name: nameValue,
         email: emailValue,
-        password: passwordValue,
+        password: passwordToUpdate,
         role: listOfRole
     };
 
