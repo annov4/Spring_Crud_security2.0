@@ -1,23 +1,30 @@
-$(document).ready(function () {
-    loadUser();
+const userUrl = 'http://localhost:8080/api/user';
 
-    function loadUser() {
+$(document).ready(function() {
+    function getUserPage() {
         $.ajax({
-            url: '/api/user',
+            url: userUrl,
             method: 'GET',
-            success: function (user) {
-                let tableBodyUser = $('#tableBodyUser');
-                tableBodyUser.empty();
-                tableBodyUser.append(`
-                        <tr>
-                            <td>${user.id}</td>
-                            <td>${user.age}</td>
-                            <td>${user.email}</td>
-                            <td>${user.name}</td>
-                            <td>${user.role.map(r => r.role.substring(5)).join(', ')}</td>
-                        </tr>
-                    `);
-            },
+            dataType: 'json',
+            success: function(user) {
+                getInformationAboutUser(user);
+            }
         });
     }
+function getInformationAboutUser(user) {
+
+    let result = '';
+    result =
+
+        `<tr>
+    <td>${user.id}</td>
+    <td>${user.age}</td>
+    <td>${user.name}</td>
+    <td>${user.email}</td>
+    <td id=${'role' + user.id}>${user.role.map(r => r.role.substring(5)).join(', ')}</td>
+</tr>`
+    $('#userTableBody').html(result);
+}
+
+    getUserPage();
 });

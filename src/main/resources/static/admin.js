@@ -1,8 +1,29 @@
-const url = 'http://localhost:8080/api/admin';
+const adminUrl = 'http://localhost:8080/api/admin';
 
-function getUserData() {
+function loadTable(listAllUsers) {
+    let res = '';
+    for (let user of listAllUsers) {
+        res  += `
+            <tr>
+                <td>${user.id}</td>
+                <td>${user.age}</td>
+                <td>${user.email}</td>
+                <td>${user.name}</td>
+                <td>${user.role.map(r => r.role.substring(5)).join(', ')}</td>
+                <td><button class="btn btn-info" type="button"
+                 data-bs-toggle="modal" data-bs-target="#editModal"
+                 onclick="editModal(${user.id})">Edit</button></td>
+                <td><button class="btn btn-danger" type="button"
+                data-bs-toggle="modal" data-bs-target="#deleteModal"
+                onclick="deleteModal(${user.id})">Delete</button></td>
+         </tr>            
+`}
+    $('#tableBodyAdmin').html(res);
+}
+
+function getAllUsers() {
     $.ajax({
-        url: url,
+        url: adminUrl,
         method: 'GET',
         dataType: 'json',
         success: function (data) {
@@ -11,153 +32,106 @@ function getUserData() {
     });
 }
 
-function getAllUsers() {
-    $.ajax({
-        url: url,
-        method: 'GET',
-        dataType: 'json',
-        success: function (user) {
-            loadTable(user);
-        }
-    });
-}
+$(document).ready(function () {
+    getAllUsers();
 
-function loadTable(listAllUsers) {
-    let res = '';
-    for (let user of listAllUsers) {
-        res += `
-            <tr>
-                <td>${user.id}</td>
-                <td>${user.age}</td>
-                <td>${user.email}</td>
-                <td>${user.name}</td>
-                <td>${user.role.map(r => r.role.substring(5)).join(', ')}</td>
-                <td><button class="btn btn-info" onclick="editModal(${user.id})" data-bs-toggle="modal" data-bs-target="#editUserModal">Edit</button></td>
-                <td><button class="btn btn-danger" onclick="deleteModal(${user.id})" data-bs-toggle="modal" data-bs-target="#deleteUserModal">Delete</button></td>
-            </tr>
-        `;
-    }
-    $('#tableBodyAdmin').html(res);
-}
+    $('#newUserForm').on('submit', function (e) {
+        e.preventDefault();
+        let role = $('#role_select');
+        let rolesAddUser = [];
+        role.find('option:selected').each(function () {
+            rolesAddUser.push({id: $(this).val(), name: 'ROLE_' + $(this).text()});
+        });
 
-getAllUsers();
-
-// Новый юзер
-$('#newUserForm').on('submit', function (e) {
-    e.preventDefault();
-    let role = $('#role_select');
-    let rolesAddUser = [];
-    for (let i = 0; i < role[0].options.length; i++) {
-        if (role[0].options[i].selected) {
-            rolesAddUser.push({id: role[0].options[i].value, name: 'ROLE_' + role[0].options[i].innerHTML});
-        }
-    }
-    $.ajax({
-        url: url,
-        method: 'POST',
-        contentType: 'application/json;charset=utf-8',
-        data: JSON.stringify({
-            age: $('#inputAge').val(),
-            email: $('#inputEmail').val(),
-            name: $('#inputName').val(),
-            password: $('#inputPassword').val(),
-            role: rolesAddUser
-        }),
-        success: function () {
-            getUserData();
-            $("#all-users-tab").click();
-        }
+        $.ajax({
+            url: adminUrl,
+            method: 'POST',
+            contentType: 'application/json;charset=utf-8',
+            data: JSON.stringify({
+                age: $('#newAge').val(),
+                name: $('#newName').val(),
+                email: $('#newEmail').val(),
+                password: $('#newPassword').val(),
+                role: rolesAddUser
+            }),
+            success: function () {
+                getAllUsers();
+                $('#all-users-tab').click();
+            }
+        });
     });
 });
 
-// Изменение юзера
 function editModal(id) {
     $.ajax({
-        url: url + '/' + id,
+        url: adminUrl + '/' + id,
         method: 'GET',
-        contentType: 'application/json;charset=UTF-8',
+        dataType: 'json',
         success: function (u) {
-            $('#ID').val(u.id);
-            $('#Age').val(u.age);
-            $('#Email').val(u.email);
-            $('#Name').val(u.name);
-            $('#Password').val("****");
-
-            let roleElements = $('#Roles').get(0).options;
-            for (let i = 0; i < roleElements.length; i++) {
-                roleElements[i].selected = u.roles.some(role => 'ROLE_' + roleElements[i].text === role.name);
-            }
+            $('#editId').val(u.id);
+            $('#editAge').val(u.age);
+            $('#editName').val(u.name);
+            $('#editEmail').val(u.email);
+            $('#editPassword').val('***');
         }
     });
 }
 
-async function editUser() {
-    let idValue = $("#ID").val();
-    let ageValue = $('#Age').val();
-    let emailValue = $('#Email').val();
-    let nameValue = $('#Name').val();
-    let passwordValue = $("#Password").val();
-
-    let roleElements = $('#Roles').get(0).options;
-    let roles = [];
-    for (let i = 0; i < roleElements.length; i++) {
-        if (roleElements[i].selected) {
-            roles.push({
-                id: roleElements[i].value,
-                name: 'ROLE_' + roleElements[i].text
-            });
-        }
-    }
+function editUser() {
+    let idValue = $('#editId').val();
+    let ageValue = $('#editAge').val();
+    let nameValue = $('#editName').val();
+    let emailValue = $('#editEmail').val();
+    let passwordValue = $('#editPassword').val();
+    let listOfRole = [];
+    $('#editRole option:selected').each(function () {
+        listOfRole.push({id: $(this).val(), name: 'ROLE_' + $(this).text()});
+    });
 
     let user = {
         id: idValue,
         age: ageValue,
-        email: emailValue,
         name: nameValue,
+        email: emailValue,
         password: passwordValue,
-        roles: roles,
+        role: listOfRole
     };
 
-    await $.ajax({
-        url: url + '/' + user.id,
+    $.ajax({
+        url: adminUrl + '/' + user.id,
         method: 'PUT',
-        contentType: 'application/json;charset=UTF-8',
+        contentType: 'application/json;charset=utf-8',
         data: JSON.stringify(user),
         success: function () {
             closeModal();
-            getUserData();
+            getAllUsers();
         }
     });
 }
 
-// Удаление юзера
 function deleteModal(id) {
     $.ajax({
-        url: url + '/' + id,
+        url: adminUrl + '/' + id,
         method: 'GET',
-        contentType: 'application/json;charset=UTF-8',
+        dataType: 'json',
         success: function (u) {
             $('#deleteId').val(u.id);
             $('#deleteAge').val(u.age);
-            $('#deleteEmail').val(u.email);
             $('#deleteName').val(u.name);
-            $('#deletePassword').val(u.password);
-            $('#deleteRoles').val(u.roles.map(r => r.role.substring(5)).join(", ")); // Изменил поле на множественное число roles
+            $('#deleteEmail').val(u.email);
+            $('#deleteRole').val(u.role.map(r => r.role.substring(5)).join(", "));
         }
     });
 }
 
-async function deleteUser() {
-    const id = $("#deleteId").val();
-    let urlDel = url + "/" + id;
-
-    await $.ajax({
-        url: urlDel,
+function deleteUser() {
+    const id = $('#deleteId').val();
+    $.ajax({
+        url: url + '/' + id,
         method: 'DELETE',
-        contentType: 'application/json',
         success: function () {
             closeModal();
-            getUserData();
+            getAllUsers();
         }
     });
 }
