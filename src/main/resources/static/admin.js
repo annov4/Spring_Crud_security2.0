@@ -1,122 +1,156 @@
-$(document).ready(function () {
-    loadUsers();
+const url = 'http://localhost:8080/api/admin';
 
-    function loadUsers() {
-        $.ajax({
-            url: '/users',
-            method: 'GET',
-            success: function (users) {
-                var userTableBody = $('#userTableBody');
-                userTableBody.empty();
-                $.each(users, function (index, user) {
-                    userTableBody.append(
-                        `<tr>
-                                <td>${user.id}</td>
-                                <td>${user.username}</td>
-                                <td>${user.age}</td>
-                                <td>${user.email}</td>
-                                <td>${user.role}</td>
-                                <td><button class="editUserBtn" data-id="${user.id}">Edit</button></td>
-                                <td><button class="deleteUserBtn" data-id="${user.id}">Delete</button></td>
-                                </tr>`
-                    );
-                });
-            }
-        });
-    }
-
-    $('#newUserLink').click(function () {
-        $('#userForm')[0].reset();
-        $('#userId').val('');
-        $('#modalTitle').text('Add User');
-        $('#userModal').modal('show');
-    });
-
-    $(document).on('click', '.editUserBtn', function () {
-        var userId = $(this).data('id');
-        $.ajax({
-            url: `/user/${userId}`,
-            method: 'GET',
-            success: function (user) {
-                $('#updateDeleteUserId').val(user.id);
-                $('#updateDeleteUsername').val(user.username);
-                $('#updateDeleteAge').val(user.age);
-                $('#updateDeleteEmail').val(user.email);
-                $('#updateDeletePassword').val(user.password);
-                $('#updateDeleteRole').val(user.role);
-                $('#modalTitle').text('Edit User');
-                $('#updateDeleteModal').modal('show');
-            }
-        });
-    });
-
-    $('#updateUserBtn').click(function () {
-        var userId = $('#updateDeleteUserId').val();
-        var user = {
-            id: userId,
-            username: $('#updateDeleteUsername').val(),
-            age: $('#updateDeleteAge').val(),
-            email: $('#updateDeleteEmail').val(),
-            password: $('#updateDeletePassword').val(),
-            role: $('#updateDeleteRole').val()
-        };
-        $.ajax({
-            url: `/user-update`,
-            method: 'PUT',
-            contentType: 'application/json',
-            data: JSON.stringify(user),
-            success: function () {
-                $('#updateDeleteModal').modal('hide');
-                loadUsers();
-            }
-        });
-    });
-
-    $(document).on('click', '.deleteUserBtn', function () {
-        if (confirm('Delete user?')) {
-            var userId = $(this).data('id');
-            $.ajax({
-                url: `/user-delete/${userId}`,
-                method: 'DELETE',
-                success: function () {
-                    loadUsers();
-                }
-            });
+function getUserData() {
+    $.ajax({
+        url: url,
+        method: 'GET',
+        dataType: 'json',
+        success: function (data) {
+            loadTable(data);
         }
     });
+}
 
-    $('#userForm').submit(function (event) {
-        event.preventDefault();
-        var userId = $('#userId').val();
-        var user = {
-            username: $('#username').val(),
-            age: $('#age').val(),
-            email: $('#email').val(),
-            password: $('#password').val(),
-            role: $('#role').val()
-        };
-        if (userId) {
-            $.ajax({
-                url: `/user-update`,
-                method: 'PUT',
-                contentType: 'application/json',
-                data: JSON.stringify(user),
-                success: function () {
-                    $('#userModal').modal('hide');
-                    loadUsers();
-                }
-            });
-        } else {
-            $.ajax({
-                url: '/user-create',
-                method: 'POST',
-                contentType: 'application/json',
-                data: JSON.stringify(user),
-                success: function () {
-                    $('#userModal').modal('hide');
-                    loadUsers();
-                }
-            });
+function getAllUsers() {
+    $.ajax({
+        url: url,
+        method: 'GET',
+        dataType: 'json',
+        success: function (user) {
+            loadTable(user);
+        }
+    });
+}
+
+function loadTable(listAllUsers) {
+    let res = '';
+    for (let user of listAllUsers) {
+        res += `
+            <tr>
+                <td>${user.id}</td>
+                <td>${user.age}</td>
+                <td>${user.email}</td>
+                <td>${user.name}</td>
+                <td>${user.role.map(r => r.role.substring(5)).join(', ')}</td>
+                <td><button class="btn btn-info" onclick="editModal(${user.id})" data-bs-toggle="modal" data-bs-target="#editUserModal">Edit</button></td>
+                <td><button class="btn btn-danger" onclick="deleteModal(${user.id})" data-bs-toggle="modal" data-bs-target="#deleteUserModal">Delete</button></td>
+            </tr>
+        `;
+    }
+    $('#tableBodyAdmin').html(res);
+}
+
+getAllUsers();
+
+// Новый юзер
+$('#newUserForm').on('submit', function (e) {
+    e.preventDefault();
+    let role = $('#role_select');
+    let rolesAddUser = [];
+    for (let i = 0; i < role[0].options.length; i++) {
+        if (role[0].options[i].selected) {
+            rolesAddUser.push({id: role[0].options[i].value, name: 'ROLE_' + role[0].options[i].innerHTML});
+        }
+    }
+    $.ajax({
+        url: url,
+        method: 'POST',
+        contentType: 'application/json;charset=utf-8',
+        data: JSON.stringify({
+            userName: $('#newUserName').val(),
+            age: $('#newAge').val(),
+            password: $('#newPassword').val(),
+            role: rolesAddUser
+        }),
+        success: function () {
+            getUserData();
+            $("#all-users-tab").click();
         }
     });
 });
+
+// Изменение юзера
+function editModal(id) {
+    $.ajax({
+        url: url + '/' + id,
+        method: 'GET',
+        contentType: 'application/json;charset=UTF-8',
+        success: function (u) {
+            $('#editId').val(u.id);
+            $('#editUserName').val(u.userName);
+            $('#editAge').val(u.age);
+            $('#editPassword').val("****");
+        }
+    });
+}
+
+async function editUser() {
+    let idValue = $("#editId").val();
+    let userNameValue = $("#editUserName").val();
+    let ageValue = $('#editAge').val();
+    let passwordValue = $("#editPassword").val();
+
+    let roleElements = $('#editRole').get(0).options;
+    let roles = [];
+    for (let i = 0; i < roleElements.length; i++) {
+        if (roleElements[i].selected) {
+            roles.push({
+                id: roleElements[i].value,
+                name: 'ROLE_' + roleElements[i].text
+            });
+        }
+    }
+
+    let user = {
+        id: idValue,
+        userName: userNameValue,
+        age: ageValue,
+        password: passwordValue,
+        role: roles,
+    };
+
+    await $.ajax({
+        url: url + '/' + user.id,
+        method: 'PUT',
+        contentType: 'application/json;charset=UTF-8',
+        data: JSON.stringify(user),
+        success: function () {
+            closeModal();
+            getUserData();
+        }
+    });
+}
+
+// Удаление юзера
+function deleteModal(id) {
+    $.ajax({
+        url: url + '/' + id,
+        method: 'GET',
+        contentType: 'application/json;charset=UTF-8',
+        success: function (u) {
+            $('#deleteId').val(u.id);
+            $('#deleteUserName').val(u.userName);
+            $('#deleteAge').val(u.age);
+            $('#deleteRole').val(u.role.map(r => r.role.substring(5)).join(", "));
+        }
+    });
+}
+
+async function deleteUser() {
+    const id = $("#deleteId").val();
+    let urlDel = url + "/" + id;
+
+    await $.ajax({
+        url: urlDel,
+        method: 'DELETE',
+        contentType: 'application/json',
+        success: function () {
+            closeModal();
+            getUserData();
+        }
+    });
+}
+
+function closeModal() {
+    $(".btn-close").click();
+}
