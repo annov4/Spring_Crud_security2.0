@@ -57,9 +57,10 @@ $('#newUserForm').on('submit', function (e) {
         method: 'POST',
         contentType: 'application/json;charset=utf-8',
         data: JSON.stringify({
-            userName: $('#newUserName').val(),
-            age: $('#newAge').val(),
-            password: $('#newPassword').val(),
+            age: $('#inputAge').val(),
+            email: $('#inputEmail').val(),
+            name: $('#inputName').val(),
+            password: $('#inputPassword').val(),
             role: rolesAddUser
         }),
         success: function () {
@@ -76,21 +77,28 @@ function editModal(id) {
         method: 'GET',
         contentType: 'application/json;charset=UTF-8',
         success: function (u) {
-            $('#editId').val(u.id);
-            $('#editUserName').val(u.userName);
-            $('#editAge').val(u.age);
-            $('#editPassword').val("****");
+            $('#ID').val(u.id);
+            $('#Age').val(u.age);
+            $('#Email').val(u.email);
+            $('#Name').val(u.name);
+            $('#Password').val("****");
+
+            let roleElements = $('#Roles').get(0).options;
+            for (let i = 0; i < roleElements.length; i++) {
+                roleElements[i].selected = u.roles.some(role => 'ROLE_' + roleElements[i].text === role.name);
+            }
         }
     });
 }
 
 async function editUser() {
-    let idValue = $("#editId").val();
-    let userNameValue = $("#editUserName").val();
-    let ageValue = $('#editAge').val();
-    let passwordValue = $("#editPassword").val();
+    let idValue = $("#ID").val();
+    let ageValue = $('#Age').val();
+    let emailValue = $('#Email').val();
+    let nameValue = $('#Name').val();
+    let passwordValue = $("#Password").val();
 
-    let roleElements = $('#editRole').get(0).options;
+    let roleElements = $('#Roles').get(0).options;
     let roles = [];
     for (let i = 0; i < roleElements.length; i++) {
         if (roleElements[i].selected) {
@@ -103,10 +111,11 @@ async function editUser() {
 
     let user = {
         id: idValue,
-        userName: userNameValue,
         age: ageValue,
+        email: emailValue,
+        name: nameValue,
         password: passwordValue,
-        role: roles,
+        roles: roles,
     };
 
     await $.ajax({
@@ -129,9 +138,11 @@ function deleteModal(id) {
         contentType: 'application/json;charset=UTF-8',
         success: function (u) {
             $('#deleteId').val(u.id);
-            $('#deleteUserName').val(u.userName);
             $('#deleteAge').val(u.age);
-            $('#deleteRole').val(u.role.map(r => r.role.substring(5)).join(", "));
+            $('#deleteEmail').val(u.email);
+            $('#deleteName').val(u.name);
+            $('#deletePassword').val(u.password);
+            $('#deleteRoles').val(u.roles.map(r => r.role.substring(5)).join(", ")); // Изменил поле на множественное число roles
         }
     });
 }
