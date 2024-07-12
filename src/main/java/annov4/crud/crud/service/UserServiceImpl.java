@@ -60,12 +60,29 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     @Transactional
     public void updateUser(User user) {
         User existingUser = userDao.getUser(user.getId());
-        if (!user.getPassword().equals(existingUser.getPassword())) {
-            user.setPassword(passwordEncoder.encode(user.getPassword()));
+
+        if (user.getAge() != existingUser.getAge()) {
+            existingUser.setAge(user.getAge());
         }
 
-        userDao.updateUser(user);
+        if (!user.getName().equals(existingUser.getName())) {
+            existingUser.setName(user.getName());
+        }
 
+        if (!user.getEmail().equals(existingUser.getEmail())) {
+            existingUser.setEmail(user.getEmail());
+        }
+
+        if (user.getPassword() != null && !user.getPassword().isEmpty() && !user.getPassword().equals(existingUser.getPassword())) {
+            existingUser.setPassword(passwordEncoder.encode(user.getPassword()));
+        } else {
+            existingUser.setPassword(existingUser.getPassword());
+        }
+        if (!user.getRole().equals(existingUser.getRole())) {
+            existingUser.setRole(user.getRole());
+        }
+
+        userDao.updateUser(existingUser);
     }
 
     @Override
