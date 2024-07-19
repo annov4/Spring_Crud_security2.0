@@ -6,9 +6,9 @@ function loadTable(listAllUsers) {
         res  += `
             <tr>
                 <td>${user.id}</td>
-                <td>${user.age}</td>
-                <td>${user.email}</td>
+                <td>${user.age}</td
                 <td>${user.name}</td>
+                <td>${user.email}</td>
                 <td>${user.role.map(r => r.role.substring(5)).join(', ')}</td>
                 <td><button class="btn btn-info" type="button"
                  data-bs-toggle="modal" data-bs-target="#editModal"
