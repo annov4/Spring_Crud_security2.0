@@ -19,7 +19,6 @@ services:
     depends_on:
       - annov_db
     environment:
-      - SPRING_DATASOURCE_URL=${SPRING_DATASOURCE_URL}
       - SPRING_DATASOURCE_USERNAME=${DB_USER}
       - SPRING_DATASOURCE_PASSWORD=${DB_PASSWORD}
 
