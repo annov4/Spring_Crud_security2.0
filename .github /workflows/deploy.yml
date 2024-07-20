@@ -4,7 +4,8 @@ on:
     push:
       branches:
         - main
-push_docker_compose:
+jobs:
+  push_docker_compose:
   name: Push docker-compose.yml to remote server
   runs-on: ubuntu-latest
   steps:
@@ -29,8 +30,8 @@ push_docker_compose:
         port: 22
         source: "file.env"
         target: "/home/${{ secrets.REMOTE_USER }}/"
-jobs:
-    build_and_push_images:
+
+  build_and_push_images:
       name: Build and Push image to DockerHub
       runs-on: ubuntu-latest
       steps:
