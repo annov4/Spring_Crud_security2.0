@@ -56,4 +56,6 @@ jobs:
            --env-file=/home/${{ secrets.REMOTE_USER }}/file.env down
            sudo docker-compose -f /home/${{ secrets.REMOTE_USER }}/docker-compose.yml
            --env-file=/home/${{ secrets.REMOTE_USER }}/file.env up -d --build
+           sudo docker ps -a
+           sudo docker images
            sudo docker system prune -f
