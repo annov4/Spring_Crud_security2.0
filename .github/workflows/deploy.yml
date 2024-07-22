@@ -52,10 +52,8 @@ jobs:
           username: ${{ secrets.REMOTE_USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
-           sudo docker-compose -f /home/${{ secrets.REMOTE_USER }}/docker-compose.yml
-           --env-file=/home/${{ secrets.REMOTE_USER }}/file.env down
-           sudo docker-compose -f /home/${{ secrets.REMOTE_USER }}/docker-compose.yml
-           --env-file=/home/${{ secrets.REMOTE_USER }}/file.env up -d --build
-           sudo docker ps -a
-           sudo docker images
-           sudo docker system prune -f
+            docker-compose -f /home/${{ secrets.REMOTE_USER }}/docker-compose.yml down
+            docker rmi $(docker images -q annov4/spring_crud_annov4:amd64)
+            docker rmi $(docker images -q annov4/spring_crud_db:amd64)
+            docker-compose -f /home/${{ secrets.REMOTE_USER }}/docker-compose.yml pull
+            docker-compose -f /home/${{ secrets.REMOTE_USER }}/docker-compose.yml up -d
