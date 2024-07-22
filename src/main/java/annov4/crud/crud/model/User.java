@@ -18,11 +18,11 @@ public class User implements UserDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "name")
-    private String name;
-
     @Column(name = "age")
     private int age;
+
+    @Column(name = "name")
+    private String name;
 
     @Column(name = "email")
     private String email;
@@ -66,18 +66,18 @@ public class User implements UserDetails {
     public boolean isEnabled() {
         return true;
     }
-    public User(String name, int age, String email, String password, Set<Role> role) {
-        this.name = name;
+    public User(int age, String name, String email, String password, Set<Role> role) {
         this.age = age;
+        this.name = name;
         this.email = email;
         this.password = password;
         this.role = role;
 
     }
-    public User(long id, String name, int age, String email, String password, Set<Role> role) {
+    public User(long id, int age, String name, String email, String password, Set<Role> role) {
         this.id = id;
-        this.name = name;
         this.age = age;
+        this.name = name;
         this.email = email;
         this.password = password;
         this.role = role;
