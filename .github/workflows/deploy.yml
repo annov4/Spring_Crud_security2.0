@@ -52,9 +52,10 @@ jobs:
           username: ${{ secrets.REMOTE_USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
-             export $(grep -v '^#' /home/${{ secrets.REMOTE_USER }}/file.env | xargs)
-             sudo docker-compose -f /home/${{ secrets.REMOTE_USER }}/docker-compose.yml down
-             sudo docker rmi -f $(docker images -q annov4/spring_crud_annov4:amd64)
-             sudo docker rmi -f $(docker images -q annov4/spring_crud_db:amd64)
-             sudo docker-compose -f /home/${{ secrets.REMOTE_USER }}/docker-compose.yml pull
-             sudo docker-compose -f /home/${{ secrets.REMOTE_USER }}/docker-compose.yml up -d
+            sudo docker-compose -f /home/${{ secrets.REMOTE_USER }}/docker-compose.yml down
+            sudo docker-compose -f /home/${{ secrets.REMOTE_USER }}/docker-compose.yml pull
+            sudo docker-compose -f /home/${{ secrets.REMOTE_USER }}/docker-compose.yml up -d
+            sudo docker system prune -af
+            sudo docker ps -a
+            
+          
