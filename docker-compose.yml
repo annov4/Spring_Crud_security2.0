@@ -1,7 +1,7 @@
 version: '3.7'
 services:
   annov_db:
-    image: postgres:14.1-alpine
+    image: postgres:latest
     environment:
       - POSTGRES_DB=${DB_NAME}
       - POSTGRES_USER=${DB_USER}
@@ -12,7 +12,7 @@ services:
       - "5432:5432"
     env_file: "file.env"
   app:
-    image: annov4/spring_crud_annov4
+    image: annov4/spring_crud_annov4:latest
     ports:
       - "8080:8080"
     env_file: "file.env"
