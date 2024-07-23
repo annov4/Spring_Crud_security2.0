@@ -21,6 +21,5 @@ services:
     environment:
       - SPRING_DATASOURCE_USERNAME=${DB_USER}
       - SPRING_DATASOURCE_PASSWORD=${DB_PASSWORD}
-
 volumes:
   pg_annov:
