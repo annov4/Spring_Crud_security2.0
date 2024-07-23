@@ -19,7 +19,7 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: 22
           source: "docker-compose.yml"
-          target: "/home/${{ secrets.REMOTE_USER }}/"
+          target: "/home/${{ secrets.REMOTE_USER }}/test/Spring_Crud_security2.0/"
 
   build_and_push_images:
     name: Push image to DockerHub
@@ -57,8 +57,8 @@ jobs:
             sudo -S docker rmi annov4/spring_crud_annov4
             sudo -S docker stop annov4/spring_crud_db
             sudo -S docker rm annov4/spring_crud_db
-            sudo docker-compose -f /home/${{ secrets.REMOTE_USER }}/docker-compose.yml pull
-            sudo docker-compose -f /home/${{ secrets.REMOTE_USER }}/docker-compose.yml up -d --remove-orphans
+            sudo docker-compose -f /home/${{ secrets.REMOTE_USER }}/test/Spring_Crud_security2.0/docker-compose.yml pull
+            sudo docker-compose -f /home/${{ secrets.REMOTE_USER }}/test/Spring_Crud_security2.0/docker-compose.yml up -d --remove-orphans
             sudo docker system prune -f
             
           
