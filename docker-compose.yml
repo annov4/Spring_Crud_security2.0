@@ -1,8 +1,7 @@
 version: '3.7'
 services:
   annov_db:
-    image: postgres
-    container_name: annov4-db
+    image: postgres:14.1-alpine
     environment:
       - POSTGRES_DB=${DB_NAME}
       - POSTGRES_USER=${DB_USER}
@@ -13,17 +12,15 @@ services:
       - "5432:5432"
     env_file: "file.env"
   app:
-    image: annov4/spring_crud_app:amd64
-    container_name: annov4-app
+    image: annov4/spring_crud_annov4
     ports:
       - "8080:8080"
     env_file: "file.env"
     depends_on:
-      - postgres
+      - annov_db
     environment:
-      - DATASOURCE_USERNAME=${DB_USER}
-      - DATASOURCE_PASSWORD=${DB_PASSWORD}
-      - DATASOURCE_URL=${DATASOURCE_URL}
+      - SPRING_DATASOURCE_USERNAME=${DB_USER}
+      - SPRING_DATASOURCE_PASSWORD=${DB_PASSWORD}
+
 volumes:
   pg_annov:
-
