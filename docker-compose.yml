@@ -10,12 +10,12 @@ services:
       - pg_annov:/var/lib/postgresql/data
     ports:
       - "5432:5432"
-    env_file: "file.env"
+    env_file: ".env"
   app:
     image: annov4/spring_crud_annov4:latest
     ports:
       - "8080:8080"
-    env_file: "file.env"
+    env_file: ".env"
     depends_on:
       - annov_db
     environment:
