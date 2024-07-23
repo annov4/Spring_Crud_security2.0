@@ -34,7 +34,7 @@ public class Test {
         Set<Role> userSet = new HashSet<>();
         userSet.add(roleUser);
 
-        User admin = new User(25, "admin", "admin@mail.ru", "admin", adminSet);
+        User admin = new User(27, "admin", "admin@mail.ru", "admin", adminSet);
         userService.saveUser(admin);
 
         User user = new User(30, "user","user@mail.ru", "user", userSet);
