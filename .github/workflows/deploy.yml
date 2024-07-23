@@ -52,13 +52,9 @@ jobs:
           username: ${{ secrets.REMOTE_USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
-            sudo -S docker stop annov4/spring_crud_annov4
-            sudo -S docker rm annov4/spring_crud_annov4
-            sudo -S docker rmi annov4/spring_crud_annov4
-            sudo -S docker stop annov4/spring_crud_db
-            sudo -S docker rm annov4/spring_crud_db
-            sudo docker-compose -f /home/${{ secrets.REMOTE_USER }}/docker-compose.yml pull
-            sudo docker-compose -f /home/${{ secrets.REMOTE_USER }}/docker-compose.yml up -d --remove-orphans
-            sudo docker system prune -f
+            docker-compose -f /home/${{ secrets.REMOTE_USER }}/docker-compose.yml down
+            docker system prune -f
+            docker-compose -f /home/${{ secrets.REMOTE_USER }}/docker-compose.yml pull
+            docker-compose -f /home/${{ secrets.REMOTE_USER }}/docker-compose.yml up -d --remove-orphans
             
           
