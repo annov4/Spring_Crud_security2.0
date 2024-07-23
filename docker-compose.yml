@@ -19,7 +19,7 @@ services:
       - "8080:8080"
     env_file: "file.env"
     depends_on:
-      - annov_db
+      - postgres
     environment:
       - DATASOURCE_USERNAME=${DB_USER}
       - DATASOURCE_PASSWORD=${DB_PASSWORD}
