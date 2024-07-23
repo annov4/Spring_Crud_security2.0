@@ -13,7 +13,7 @@
                     <pattern>
                         <pattern>
                             {
-                            "app": "orchestrator"
+                            "app": "annov4/spring_crud_annov4"
                             }
                         </pattern>
                     </pattern>
