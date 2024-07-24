@@ -2,7 +2,6 @@ databaseChangeLog:
   - changeSet:
       id: create-user-role-table
       author: annov4
-      context: initial
       changes:
         - createTable:
             tableName: user_role
