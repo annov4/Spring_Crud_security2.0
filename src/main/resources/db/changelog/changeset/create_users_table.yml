@@ -1,6 +1,6 @@
 databaseChangeLog:
   - changeSet:
-      id:
+      id: create-users-table
       author: annov4
       context: initial
       changes:
