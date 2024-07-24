@@ -1,0 +1,22 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-user-role-table
+      author: annov4
+      context: initial
+      changes:
+        - createTable:
+            tableName: user-role
+            columns:
+              - column:
+                  name: user_id
+                  type: INT
+                  constraints:
+                    nullable: false
+              - column:
+                  name: role_id
+                  type: INT
+                  constraints:
+                    nullable: false
+        - addPrimaryKey:
+            tableName: user_role
+            columnNames: user_id, role_id
