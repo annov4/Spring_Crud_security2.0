@@ -5,3 +5,5 @@ databaseChangeLog:
       file: db/changelog/changeset/create_roles_table.yml
   - include:
       file: db/changelog/changeset/create_user_role_table.yml
+  - include:
+      file: db/changelog/changeset/add_status_to_users_table.yml
