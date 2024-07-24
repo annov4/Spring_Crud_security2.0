@@ -5,4 +5,3 @@ databaseChangeLog:
       file: db/changelog/changeset/create_roles_table.yml
   - include:
       file: db/changelog/changeset/create_user_role_table.yml
-
