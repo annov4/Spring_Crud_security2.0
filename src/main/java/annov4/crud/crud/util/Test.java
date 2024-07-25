@@ -34,10 +34,10 @@ public class Test {
         Set<Role> userSet = new HashSet<>();
         userSet.add(roleUser);
 
-        User admin = new User(34, "admin", "admin@mail.ru", "admin", adminSet);
+        User admin = new User(34, "admin1", "admin@mail.ru", "admin", adminSet);
         userService.saveUser(admin);
 
-        User user = new User(30, "user","user@mail.ru", "user", userSet);
+        User user = new User(30, "user1","user@mail.ru", "user", userSet);
         userService.saveUser(user);
     }
 }
