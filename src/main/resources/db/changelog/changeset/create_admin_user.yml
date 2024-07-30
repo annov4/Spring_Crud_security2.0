@@ -1,0 +1,39 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-admin-user
+      author: annov4
+      changes:
+      - insert:
+          tableName: users
+          columns:
+            - column:
+                name: age
+                value: "35"
+            - column:
+                name: name
+                value: "admin"
+            - column:
+                name: email
+                value: "admin@server.com"
+            - column:
+                name: password
+                value: "admin"
+      - insert:
+          tableName: users
+          columns:
+            - column:
+                name: age
+                value: "25"
+            - column:
+                name: name
+                value: "user"
+            - column:
+                name: email
+                value: "user@server.com"
+            - column:
+                name: password
+                value: "user"
+      rollback:
+      - delete:
+          tableName: users
+          where: username in ('admin', 'user')
