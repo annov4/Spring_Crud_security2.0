@@ -36,4 +36,4 @@ databaseChangeLog:
       rollback:
       - delete:
           tableName: users
-          where: username in ('admin', 'user')
+          where: name in ('admin', 'user')

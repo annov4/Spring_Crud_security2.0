@@ -1,7 +1,19 @@
 databaseChangeLog:
+  - changeSet:
+      id: clear-database
+      author: annov4
+      changes:
+        - delete:
+            tableName: user_role
+        - delete:
+            tableName: users
+        - delete:
+            tableName: roles
   - include:
       file: db/changelog/changeset/create_users_table.yml
   - include:
       file: db/changelog/changeset/create_roles_table.yml
   - include:
       file: db/changelog/changeset/create_user_role_table.yml
+  - include:
+      file: db/changelog/changeset/create_admin_user.yml
