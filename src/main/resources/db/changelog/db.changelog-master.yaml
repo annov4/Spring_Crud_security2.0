@@ -3,11 +3,11 @@ databaseChangeLog:
       id: clear-database
       author: annov4
       changes:
-        - delete:
+        - truncateTable:
             tableName: user_role
-        - delete:
+        - truncateTable:
             tableName: users
-        - delete:
+        - truncateTable:
             tableName: roles
   - include:
       file: db/changelog/changeset/create_users_table.yml

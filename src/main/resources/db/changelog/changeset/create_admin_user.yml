@@ -3,37 +3,55 @@ databaseChangeLog:
       id: create-admin-user
       author: annov4
       changes:
-      - insert:
-          tableName: users
-          columns:
-            - column:
-                name: age
-                value: "35"
-            - column:
-                name: name
-                value: "admin"
-            - column:
-                name: email
-                value: "admin@server.com"
-            - column:
-                name: password
-                value: "admin"
-      - insert:
-          tableName: users
-          columns:
-            - column:
-                name: age
-                value: "25"
-            - column:
-                name: name
-                value: "user"
-            - column:
-                name: email
-                value: "user@server.com"
-            - column:
-                name: password
-                value: "user"
+        - insert:
+            tableName: users
+            columns:
+              - column:
+                  name: age
+                  value: "35"
+              - column:
+                  name: name
+                  value: "admin"
+              - column:
+                  name: email
+                  value: "admin@server.com"
+              - column:
+                  name: password
+                  value: "admin"
+        - insert:
+            tableName: users
+            columns:
+              - column:
+                  name: age
+                  value: "25"
+              - column:
+                  name: name
+                  value: "user"
+              - column:
+                  name: email
+                  value: "user@server.com"
+              - column:
+                  name: password
+                  value: "user"
+        - insert:
+            tableName: user_role
+            columns:
+              - column:
+                  name: user_id
+                  value: (SELECT id FROM users WHERE name = 'admin')
+              - column:
+                  name: role_id
+                  value: (SELECT id FROM roles WHERE role = 'ADMIN')
+        - insert:
+            tableName: user_role
+            columns:
+              - column:
+                  name: user_id
+                  value: (SELECT id FROM users WHERE name = 'user')
+              - column:
+                  name: role_id
+                  value: (SELECT id FROM roles WHERE role = 'USER')
       rollback:
-      - delete:
-          tableName: users
-          where: name in ('admin', 'user')
+        - delete:
+            tableName: users
+            where: name in ('admin', 'user')
