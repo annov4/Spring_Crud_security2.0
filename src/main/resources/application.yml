@@ -13,3 +13,7 @@ spring:
         hbm2ddl:
           auto: none
           open-in-view: false
+
+roles:
+  admin: ROLE_ADMIN
+  user: ROLE_USER
