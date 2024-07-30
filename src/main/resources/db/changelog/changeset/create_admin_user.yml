@@ -38,20 +38,16 @@ databaseChangeLog:
             columns:
               - column:
                   name: user_id
-                  value: (SELECT id FROM users WHERE name = 'admin')
+                  valueComputed: (SELECT id FROM users WHERE name = 'admin')
               - column:
                   name: role_id
-                  value: (SELECT id FROM roles WHERE role = 'ADMIN')
+                  valueComputed: (SELECT id FROM roles WHERE role = 'ADMIN')
         - insert:
             tableName: user_role
             columns:
               - column:
                   name: user_id
-                  value: (SELECT id FROM users WHERE name = 'user')
+                  valueComputed: (SELECT id FROM users WHERE name = 'user')
               - column:
                   name: role_id
-                  value: (SELECT id FROM roles WHERE role = 'USER')
-      rollback:
-        - delete:
-            tableName: users
-            where: name in ('admin', 'user')
+                  valueComputed: (SELECT id FROM roles WHERE role = 'USER')
