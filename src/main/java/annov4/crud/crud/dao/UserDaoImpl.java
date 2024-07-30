@@ -29,8 +29,6 @@ public class UserDaoImpl implements UserDao, UserDetailsService {
         return new org.springframework.security.core.userdetails
                 .User(user.getUsername(), user.getPassword(), user.getAuthorities());
     }
-
-
     @Override
     public List<User> findAll() {
         return userRepository.findAll();
