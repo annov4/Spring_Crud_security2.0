@@ -15,38 +15,49 @@ import java.util.Set;
 
 @Configuration
 public class Test {
+
     private final UserService userService;
+    private final RoleService roleService;
     private final PasswordEncoder passwordEncoder;
 
     @Autowired
-    public Test(UserService userService, PasswordEncoder passwordEncoder) {
+    public Test(UserService userService, RoleService roleService, PasswordEncoder passwordEncoder) {
         this.userService = userService;
+        this.roleService = roleService;
         this.passwordEncoder = passwordEncoder;
     }
 
     @PostConstruct
     public void init() {
         if (userService.findByName("admin") == null) {
+            Role adminRole = new Role("ADMIN");
+            roleService.save(adminRole);
+
             User admin = new User();
             admin.setName("admin");
             admin.setPassword(passwordEncoder.encode("admin"));
             admin.setEmail("admin@example.com");
             admin.setAge(30);
-            Set<Role> role = new HashSet<>();
-            role.add(new Role("ADMIN"));
-            admin.setRole(role);
+
+            Set<Role> roles = new HashSet<>();
+            roles.add(adminRole);
+            admin.setRole(roles);
             userService.saveUser(admin);
         }
 
         if (userService.findByName("user") == null) {
+            Role userRole = new Role("USER");
+            roleService.save(userRole);
+
             User user = new User();
             user.setName("user");
             user.setPassword(passwordEncoder.encode("user"));
             user.setEmail("user@example.com");
             user.setAge(25);
-            Set<Role> role = new HashSet<>();
-            role.add(new Role("USER"));
-            user.setRole(role);
+
+            Set<Role> roles = new HashSet<>();
+            roles.add(userRole);
+            user.setRole(roles);
             userService.saveUser(user);
         }
     }
