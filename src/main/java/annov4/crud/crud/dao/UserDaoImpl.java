@@ -14,7 +14,6 @@ import java.util.List;
 @Repository
 public class UserDaoImpl implements UserDao, UserDetailsService {
     private final UserRepository userRepository;
-
     @Autowired
     public UserDaoImpl(UserRepository userRepository) {
         this.userRepository = userRepository;
