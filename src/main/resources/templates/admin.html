@@ -92,6 +92,7 @@
                                             <th>Age</th>
                                             <th>Name</th>
                                             <th>Email</th>
+                                            <th>HomeAddress</th>
                                             <th>Role</th>
                                             <th>Edit</th>
                                             <th>Delete</th>
@@ -149,6 +150,14 @@
                                                         <input type="text"
                                                                class="form-control"
                                                                id="editEmail"
+                                                               name="email">
+                                                    </div>
+                                                    <div class="mb-3">
+                                                        <label for="editHomeAddress"
+                                                               class="col-form-label d-flex justify-content-center"><b>HomeAddress</b>:</label>
+                                                        <input type="text"
+                                                               class="form-control"
+                                                               id="editHomeAddress"
                                                                name="email">
                                                     </div>
 
@@ -234,7 +243,14 @@
                                                                id="deleteEmail"
                                                                name="email">
                                                     </div>
-
+                                                    <div class="mb-3">
+                                                        <label for="deleteHomeAddress"
+                                                               class="col-form-label d-flex justify-content-center"><b>HomeAddress</b>:</label>
+                                                        <input readonly type="email"
+                                                               class="form-control"
+                                                               id="deleteHomeAddress"
+                                                               name="email">
+                                                    </div>
                                                     <div class="mb-3">
                                                         <label for="deleteRole"
                                                                class="col-form-label d-flex justify-content-center"><b>Role</b>:</label>
@@ -292,6 +308,13 @@
                                                                name="email">
                                                     </div>
                                                     <div class="mb-3">
+                                                        <label for="newHomeAddress"
+                                                               class="form-label d-flex justify-content-center"><b>HomeAddress</b></label>
+                                                        <input type="email"
+                                                               class="form-control" id="newHomeAddress"
+                                                               name="email">
+                                                    </div>
+                                                    <div class="mb-3">
                                                         <label for="newPassword"
                                                                class="form-label d-flex justify-content-center"><b>Password</b></label>
                                                         <input type="password"
@@ -337,6 +360,7 @@
                                 <th>Age</th>
                                 <th>Name</th>
                                 <th>Email</th>
+                                <th>HomeAddress</th>
                                 <th>Roles</th>
                             </tr>
                             </thead>

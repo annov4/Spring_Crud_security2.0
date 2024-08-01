@@ -30,7 +30,58 @@ databaseChangeLog:
                   constraints:
                     nullable: false
               - column:
+                  name: home_address
+                  type: VARCHAR(255)
+                  constraints:
+                    nullable: false
+              - column:
                   name: password
                   type: VARCHAR(255)
                   constraints:
                     nullable: false
+  - changeSet:
+      id: insert-admin-and-user-in-user-table
+      author: annov4
+      changes:
+        - insert:
+            tableName: users
+            columns:
+              - column:
+                  name: age
+                  value: 25
+              - column:
+                  name: name
+                  value: "user"
+              - column:
+                  name: email
+                  value: "user@mail.ru"
+              - column:
+                  name: home_address
+                  value: "москва сухонская 11"
+              - column:
+                  name: password
+                  value: $2a$10$38hRawfgSBppk4glvmIcJOnlAmUeZNMSxaP2lVLRHbOIXzqY59o2i
+              - column:
+                  name: role_id
+                  value: 2
+        - insert:
+            tableName: users
+            columns:
+              - column:
+                  name: age
+                  value: 35
+              - column:
+                  name: name
+                  value: "admin"
+              - column:
+                  name: email
+                  value: "admin@mail.ru"
+              - column:
+                  name: home_address
+                  value: "санкт-петербург оптиков 52"
+              - column:
+                  name: password
+                  value: $2a$10$0oUAgvodIS3.v1A0U2J27eq2PSOLN9rO.GA3hQWyazlqOI9L1YMf2
+              - column:
+                  name: role_id
+                  value: 1

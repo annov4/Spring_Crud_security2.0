@@ -21,6 +21,7 @@ function getInformationAboutUser(user) {
     <td>${user.age}</td>
     <td>${user.name}</td>
     <td>${user.email}</td>
+    <td>${user.home_address}</td>
     <td id=${'role' + user.id}>${user.role.map(r => r.role.substring(5)).join(', ')}</td>
 </tr>`
     $('#userTableBody').html(result);
