@@ -39,6 +39,18 @@ databaseChangeLog:
                   type: VARCHAR(255)
                   constraints:
                     nullable: false
+              - column:
+                  name: role_id
+                  type: INT
+                  constraints:
+                    nullable: false
+        - addForeignKeyConstraint:
+                        baseTableName: users
+                        baseColumnNames: role_id
+                        constraintName: fk_users_role
+                        referencedTableName: roles
+                        referencedColumnNames: id
+                        onDelete: CASCADE
   - changeSet:
       id: insert-admin-and-user-in-user-table
       author: annov4
@@ -61,9 +73,6 @@ databaseChangeLog:
               - column:
                   name: password
                   value: $2a$10$38hRawfgSBppk4glvmIcJOnlAmUeZNMSxaP2lVLRHbOIXzqY59o2i
-              - column:
-                  name: role_id
-                  value: 2
         - insert:
             tableName: users
             columns:
@@ -82,6 +91,3 @@ databaseChangeLog:
               - column:
                   name: password
                   value: $2a$10$0oUAgvodIS3.v1A0U2J27eq2PSOLN9rO.GA3hQWyazlqOI9L1YMf2
-              - column:
-                  name: role_id
-                  value: 1
