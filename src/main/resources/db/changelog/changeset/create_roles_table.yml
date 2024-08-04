@@ -19,19 +19,3 @@ databaseChangeLog:
                   constraints:
                     nullable: false
                     unique: true
-  - changeSet:
-      id: insert-roles-in-role-table
-      author: annov4
-      changes:
-        - insert:
-            tableName: roles
-            columns:
-              - column:
-                  name: name
-                  value: "ROLE_ADMIN"
-        - insert:
-            tableName: roles
-            columns:
-              - column:
-                  name: name
-                  value: "ROLE_USER"

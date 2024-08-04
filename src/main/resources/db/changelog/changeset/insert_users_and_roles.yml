@@ -1,0 +1,71 @@
+databaseChangeLog:
+  - changeSet:
+      id: insert-users-and-roles
+      author: annov4
+      changes:
+        - insert:
+            tableName: roles
+            columns:
+              - column:
+                  name: role
+                  value: "ROLE_ADMIN"
+        - insert:
+            tableName: roles
+            columns:
+              - column:
+                  name: role
+                  value: "ROLE_USER"
+        - insert:
+            tableName: users
+            columns:
+              - column:
+                  name: age
+                  value: '25'
+              - column:
+                  name: name
+                  value: "user"
+              - column:
+                  name: email
+                  value: "user@mail.ru"
+              - column:
+                  name: home_address
+                  value: "москва сухонская 11"
+              - column:
+                  name: password
+                  value: $2a$10$38hRawfgSBppk4glvmIcJOnlAmUeZNMSxaP2lVLRHbOIXzqY59o2i
+        - insert:
+            tableName: users
+            columns:
+              - column:
+                  name: age
+                  value: '35'
+              - column:
+                  name: name
+                  value: "admin"
+              - column:
+                  name: email
+                  value: "admin@mail.ru"
+              - column:
+                  name: home_address
+                  value: "санкт-петербург оптиков 52"
+              - column:
+                  name: password
+                  value: $2a$10$0oUAgvodIS3.v1A0U2J27eq2PSOLN9rO.GA3hQWyazlqOI9L1YMf2
+        - insert:
+            tableName: user_role
+            columns:
+              - column:
+                  name: user_id
+                  valueNumeric: '1'
+              - column:
+                  name: role_id
+                  valueNumeric: '2'
+        - insert:
+            tableName: user_role
+            columns:
+              - column:
+                  name: user_id
+                  valueNumeric: '2'
+              - column:
+                  name: role_id
+                  valueNumeric: '1'

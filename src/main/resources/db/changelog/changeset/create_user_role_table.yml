@@ -11,7 +11,7 @@ databaseChangeLog:
                   type: INT
                   constraints:
                     nullable: false
-                    foreignKeyName: user_id
+                    foreignKeyName: fk_user
                     referencedTableName: users
                     referencedColumnNames: id
               - column:
@@ -19,7 +19,7 @@ databaseChangeLog:
                   type: INT
                   constraints:
                     nullable: false
-                    foreignKeyName: roles_id
+                    foreignKeyName: fk_role
                     referencedTableName: roles
                     referencedColumnNames: id
         - addPrimaryKey:
