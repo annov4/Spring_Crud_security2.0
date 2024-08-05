@@ -11,8 +11,6 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.HashMap;
-import java.util.Map;
 
 
 @Service
@@ -23,7 +21,7 @@ public class WeatherService {
     private final String apiKey = "cb7093256c8ed475de23fb01148b5f690f3206a7";
     private final String secretKey = "47ed84c5594a87a7ba53a7edb3bff33022d66516";
     private final String yandexUrl = "https://api.weather.yandex.ru/v2/forecast";
-    private final String yandexApiKey = "3cf5af7e-da4a-403d-8864-b452374ec1bc";
+    private final String accessKey = "3cf5af7e-da4a-403d-8864-b452374ec1bc";
 
     public WeatherService(RestTemplate restTemplate) {
         this.restTemplate = restTemplate;
@@ -76,27 +74,27 @@ public class WeatherService {
         return new Coordinates(latitude, longitude);
     }
 
-    public WeatherInfo getWeatherInfo(double latitude, double longitude) {
+    public WeatherInfo getWeatherInfo(double latitude, double longitude) throws IOException {
         String url = yandexUrl + "?lat=" + latitude + "&lon=" + longitude;
-        Map<String, String> headers = new HashMap<>();
-        headers.put("X-Yandex-API-Key", yandexApiKey);
+        HttpURLConnection connection = (HttpURLConnection) new URL(url).openConnection();
+        connection.setRequestMethod("GET");
+        connection.setRequestProperty("X-Yandex-API-Key", accessKey);
 
-        String response = restTemplate.getForObject(url, String.class);
-        return parseWeatherInfo(response);
+        try (BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()))) {
+            String response = in.readLine();
+            return parseWeatherInfo(response);
+        }
+
     }
 
-    private WeatherInfo parseWeatherInfo(String json) {
+    private WeatherInfo parseWeatherInfo(String json) throws IOException {
         ObjectMapper mapper = new ObjectMapper();
-        JsonNode rootNode;
-        try {
-            rootNode = mapper.readTree(json);
-            JsonNode fact = rootNode.path("fact");
-            String condition = fact.path("condition").asText();
-            return new WeatherInfo(condition);
-        } catch (IOException e) {
-            e.printStackTrace();
-            return null;
-        }
+        JsonNode root = mapper.readTree(json);
+        JsonNode factNode = root.path("fact");
+
+        String condition = factNode.path("condition").asText();
+
+        return new WeatherInfo(condition);
     }
 
     public static class Coordinates {
@@ -129,4 +127,3 @@ public class WeatherService {
         }
     }
 }
-
