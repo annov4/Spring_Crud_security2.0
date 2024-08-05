@@ -8,7 +8,7 @@ function loadTable(listAllUsers) {
     <td>${user.age}</td>
     <td>${user.name}</td>
     <td>${user.email}</td>
-    <td>${user.homeAddress}</td>
+    <td>${user.home_address}</td>
     <td id=${'role' + user.id}>${user.role.map(r => r.role.substring(5)).join(', ')}</td>
                 <td><button class="btn btn-info" type="button"
                  data-bs-toggle="modal" data-bs-target="#editModal"
@@ -73,7 +73,7 @@ function editModal(id) {
             $('#editAge').val(u.age);
             $('#editName').val(u.name);
             $('#editEmail').val(u.email);
-            $('#editHomeAddress').val(u.homeAddress);
+            $('#editHomeAddress').val(u.home_address);
             $('#editPassword').val('');
             $('#currentPassword').val(u.password);
         }
@@ -126,7 +126,7 @@ function deleteModal(id) {
             $('#deleteAge').val(u.age);
             $('#deleteName').val(u.name);
             $('#deleteEmail').val(u.email);
-            $('#deleteHomeAddress').val(u.homeAddress);
+            $('#deleteHomeAddress').val(u.home_address);
             $('#deleteRole').val(u.role.map(r => r.role.substring(5)).join(", "));
         }
     });

@@ -28,7 +28,7 @@ public class User implements UserDetails {
     private String email;
 
     @Column(name = "home_address")
-    private String homeAddress;
+    private String home_address;
 
     @Column(name = "password")
     private String password;
@@ -70,21 +70,21 @@ public class User implements UserDetails {
     public boolean isEnabled() {
         return true;
     }
-    public User(int age, String name, String email, String homeAddress, String password, Set<Role> role) {
+    public User(int age, String name, String email, String home_address, String password, Set<Role> role) {
         this.age = age;
         this.name = name;
         this.email = email;
-        this.homeAddress = homeAddress;
+        this.home_address = home_address;
         this.password = password;
         this.role = role;
 
     }
-    public User(long id, int age, String name, String email, String homeAddress, String password, Set<Role> role) {
+    public User(long id, int age, String name, String email, String home_address, String password, Set<Role> role) {
         this.id = id;
         this.age = age;
         this.name = name;
         this.email = email;
-        this.homeAddress = homeAddress;
+        this.home_address = home_address;
         this.password = password;
         this.role = role;
     }
@@ -96,7 +96,7 @@ public class User implements UserDetails {
                 ", name='" + name + '\'' +
                 ", age=" + age +
                 ", email='" + email + '\'' +
-                ", homeAddress='" + homeAddress + '\'' +
+                ", home_address='" + home_address + '\'' +
                 ", password='" + password + '\'' +
                 ", role=" + role +
                 '}';
