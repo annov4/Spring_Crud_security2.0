@@ -8,25 +8,38 @@ $(document).ready(function() {
             dataType: 'json',
             success: function(user) {
                 getInformationAboutUser(user);
+                getWeatherInfo(user.home_address);
             }
         });
     }
-function getInformationAboutUser(user) {
-    const umbrellaIcon = user.umbrella ? '<i class="fas fa-umbrella"></i>' : '';
-    let result = '';
-    result =
+    function getWeatherInfo(address) {
+        $.ajax({
+            url: `${weatherUrl}?address=${encodeURIComponent(address)}`,
+            method: 'GET',
+            dataType: 'json',
+            success: function(weather) {
+                appendWeatherIcon(weather.condition);
+            }
+        });
+    }
 
-        `<tr>
-    <td>${user.id}</td>
-    <td>${user.age}</td>
-    <td>${user.name}</td>
-    <td>${user.email}</td>
-    <td>${user.home_address}</td>
-    <td id=${'role' + user.id}>${user.role.map(r => r.role.substring(5)).join(', ')}</td>
-    <td>${umbrellaIcon}</td>
-</tr>`
-    $('#userTableBody').html(result);
-}
+    function appendWeatherIcon(condition) {
+        if (condition === 'RAIN') {
+            $('#homeAddress').append('<i class="bi bi-umbrella"></i>');
+        }
+    }
+
+    function getInformationAboutUser(user) {
+        let result = `
+    ${user.id}
+    ${user.age}
+    ${user.name}
+    ${user.email}
+    <span id="homeAddress">${user.home_address}</span>
+    ${user.role.map(r => r.role.substring(5)).join(', ')}
+`
+        $('#userTableBody').html(result);
+    }
 
     getUserPage();
 });
