@@ -1,0 +1,14 @@
+databaseChangeLog:
+  - changeSet:
+      id: add-umbrella-column
+      author: annov4
+      changes:
+        - insert:
+            tableName: users
+            columns:
+              - column:
+                  name: umbrella
+                  type: BOOLEAN
+                  defaultValueBoolean: false
+                  constraints:
+                    nullable: false

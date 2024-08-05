@@ -2,12 +2,14 @@ package annov4.crud.crud.controller;
 
 import annov4.crud.crud.model.User;
 import annov4.crud.crud.service.UserService;
+import annov4.crud.crud.service.WeatherService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.util.List;
 
 @RestController
@@ -17,6 +19,7 @@ import java.util.List;
 public class AdminController {
 
     private final UserService userService;
+    private final WeatherService weatherService;
 
     @GetMapping()
     public ResponseEntity<List<User>> showAllUsers() {
@@ -25,7 +28,19 @@ public class AdminController {
 
     @GetMapping("/{id}")
     public ResponseEntity<User> getUserById(@PathVariable Long id) {
-        return new ResponseEntity<>(userService.getUser(id), HttpStatus.OK);
+        User user = userService.getUser(id);
+        try {
+            WeatherService.Coordinates coordinates = weatherService.getCoordinates(user.getHomeAddress());
+            WeatherService.WeatherInfo weatherInfo = weatherService.getWeatherInfo(coordinates.getLatitude(), coordinates.getLongitude());
+            if ("rain".equalsIgnoreCase(weatherInfo.getCondition())) {
+                user.setUmbrella(true);
+            } else {
+                user.setUmbrella(false);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return new ResponseEntity<>(user, HttpStatus.OK);
     }
 
     @PostMapping()

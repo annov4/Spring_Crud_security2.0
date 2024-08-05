@@ -28,10 +28,14 @@ public class User implements UserDetails {
     private String email;
 
     @Column(name = "home_address")
-    private String home_address;
+    private String homeAddress;
+
+    @Column(name = "umbrella")
+    private Boolean umbrella;
 
     @Column(name = "password")
     private String password;
+
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "user_role",
@@ -69,21 +73,21 @@ public class User implements UserDetails {
     public boolean isEnabled() {
         return true;
     }
-    public User(int age, String name, String email, String home_address, String password, Set<Role> role) {
+    public User(int age, String name, String email, String homeAddress, String password, Set<Role> role) {
         this.age = age;
         this.name = name;
         this.email = email;
-        this.home_address = home_address;
+        this.homeAddress = homeAddress;
         this.password = password;
         this.role = role;
 
     }
-    public User(long id, int age, String name, String email, String home_address, String password, Set<Role> role) {
+    public User(long id, int age, String name, String email, String homeAddress, String password, Set<Role> role) {
         this.id = id;
         this.age = age;
         this.name = name;
         this.email = email;
-        this.home_address = home_address;
+        this.homeAddress = homeAddress;
         this.password = password;
         this.role = role;
     }
@@ -95,7 +99,7 @@ public class User implements UserDetails {
                 ", name='" + name + '\'' +
                 ", age=" + age +
                 ", email='" + email + '\'' +
-                ", home_address='" + home_address + '\'' +
+                ", home_address='" + homeAddress + '\'' +
                 ", password='" + password + '\'' +
                 ", role=" + role +
                 '}';

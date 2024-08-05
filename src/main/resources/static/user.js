@@ -12,7 +12,7 @@ $(document).ready(function() {
         });
     }
 function getInformationAboutUser(user) {
-
+    const umbrellaIcon = user.umbrella ? '<i class="fas fa-umbrella"></i>' : '';
     let result = '';
     result =
 
@@ -23,6 +23,7 @@ function getInformationAboutUser(user) {
     <td>${user.email}</td>
     <td>${user.home_address}</td>
     <td id=${'role' + user.id}>${user.role.map(r => r.role.substring(5)).join(', ')}</td>
+    <td>${umbrellaIcon}</td>
 </tr>`
     $('#userTableBody').html(result);
 }
