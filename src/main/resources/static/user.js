@@ -23,7 +23,14 @@ function getInformationAboutUser(user) {
     <td>${user.home_address}</td>
     <td id=${'role' + user.id}>${user.role.map(r => r.role.substring(5)).join(', ')}</td>
 </tr>`
+
+    result += `</tr>`;
     $('#userTableBody').html(result);
+    if (user.weatherCondition === 'RAIN') {
+        $('#umbrellaIcon').html('<i class="bi bi-umbrella"></i>');
+    } else {
+        $('#umbrellaIcon').html('&nbsp;');
+    }
 }
 
     getUserPage();

@@ -18,6 +18,7 @@
     <div><b sec:authentication="name"/> with roles:
         <th:block th:each="role : ${#authentication.authorities}">
             &nbsp;<span th:text="${role.getAuthority()}"/>
+             <span id="umbrellaIcon">&nbsp;</span>
         </th:block>
     </div>
     <div><a class="text-light" th:href="@{/logout} ">Logout</a></div>
