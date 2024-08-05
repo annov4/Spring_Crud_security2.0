@@ -7,5 +7,3 @@ databaseChangeLog:
       file: db/changelog/changeset/create_user_role_table.yml
   - include:
       file: db/changelog/changeset/insert_users_and_roles.yml
-  - include:
-      file: db/changelog/changeset/add_umbrella.yml
