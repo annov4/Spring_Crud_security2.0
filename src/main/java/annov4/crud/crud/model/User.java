@@ -30,6 +30,9 @@ public class User implements UserDetails {
     @Column(name = "home_address")
     private String homeAddress;
 
+    @Column(name = "umbrella")
+    private Boolean umbrella;
+
     @Column(name = "password")
     private String password;
 
