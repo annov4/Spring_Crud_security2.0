@@ -3,12 +3,10 @@ databaseChangeLog:
       id: add-umbrella-column
       author: annov4
       changes:
-        - insert:
+        - addColumn:
             tableName: users
             columns:
               - column:
                   name: umbrella
-                  type: BOOLEAN
+                  type: boolean
                   defaultValueBoolean: false
-                  constraints:
-                    nullable: false
