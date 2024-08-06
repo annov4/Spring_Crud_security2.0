@@ -13,27 +13,27 @@ $(document).ready(function() {
             }
         });
     }
-function getInformationAboutUser(user) {
-    let result = '';
-    result =
 
-        `<tr>
-    <td>${user.id}</td>
-    <td>${user.age}</td>
-    <td>${user.name}</td>
-    <td>${user.email}</td>
-    <td>${user.home_address}</td>
-    <td id=${'role' + user.id}>${user.role.map(r => r.role.substring(5)).join(', ')}</td>
-</tr>`
+    function getInformationAboutUser(user, weatherCondition) {
+        let result = '';
 
-    result += `</tr>`;
-    $('#userTableBody').html(result);
-    if (weatherCondition.toLowerCase() === 'rain') {
-        $('#umbrellaIcon').html('🌂');
-    } else {
-        $('#umbrellaIcon').html('&nbsp;');
+        result = `
+                ${user.id}
+                ${user.age}
+                ${user.name}
+                ${user.email}
+                ${user.home_address}
+                ${user.role.map(r => r.role.substring(5)).join(', ')}
+            `
+
+        $('#userTableBody').html(result);
+
+        if (weatherCondition.toLowerCase() === 'rain') {
+            $('#umbrellaIcon').html('🌂');
+        } else {
+            $('#umbrellaIcon').html('&nbsp;');
+        }
     }
-}
 
     getUserPage();
 });
