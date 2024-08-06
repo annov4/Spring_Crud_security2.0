@@ -18,10 +18,10 @@ public class WeatherService {
 
     private final RestTemplate restTemplate;
     private final String dadataUrl = "https://cleaner.dadata.ru/api/v1/clean/address";
-    private final String apiKey = "cb7093256c8ed475de23fb01148b5f690f3206a7";
-    private final String secretKey = "47ed84c5594a87a7ba53a7edb3bff33022d66516";
+    private final String apiKey = "API_KEY";
+    private final String secretKey = "SECRET_KEY";
     private final String yandexUrl = "https://api.weather.yandex.ru/v2/forecast";
-    private final String accessKey = "3cf5af7e-da4a-403d-8864-b452374ec1bc";
+    private final String accessKey = "ACCESS_KEY";
 
     public WeatherService(RestTemplate restTemplate) {
         this.restTemplate = restTemplate;
