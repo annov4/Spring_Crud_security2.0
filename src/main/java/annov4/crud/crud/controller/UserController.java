@@ -32,6 +32,6 @@ public class UserController {
         Map<String, Object> response = new HashMap<>();
         response.put("user", user);
         response.put("weatherCondition", weatherInfo.getCondition());
-        return new ResponseEntity(user, HttpStatus.OK);
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 }
