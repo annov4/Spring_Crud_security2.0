@@ -12,13 +12,18 @@
     <link rel="stylesheet"
           href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
     <title>User</title>
+    <style>
+        .umbrellaIcon {
+            display: none;
+        }
+    </style>
 </head>
 <body>
 <div class="container-fluid d-flex flex-row align-items-center justify-content-between p-3 bg-dark text-white">
     <div><b sec:authentication="name"/> with roles:
         <th:block th:each="role : ${#authentication.authorities}">
             &nbsp;<span th:text="${role.getAuthority()}"/>
-             <span id="umbrellaIcon">&nbsp;</span>
+             <span id="umbrellaIcon"></span>
         </th:block>
     </div>
     <div><a class="text-light" th:href="@{/logout} ">Logout</a></div>

@@ -26,7 +26,7 @@ function getInformationAboutUser(user) {
 
     result += `</tr>`;
     $('#userTableBody').html(result);
-    if (user.weatherCondition === 'RAIN') {
+    if (weatherInfo.condition.toLowerCase() === 'rain') {
         $('#umbrellaIcon').html('<i class="bi bi-umbrella"></i>');
     } else {
         $('#umbrellaIcon').html('&nbsp;');

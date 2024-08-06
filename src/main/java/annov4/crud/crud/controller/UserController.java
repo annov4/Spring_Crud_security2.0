@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.io.IOException;
 import java.security.Principal;
+import java.util.HashMap;
+import java.util.Map;
 
 
 @RestController
@@ -27,7 +29,6 @@ public class UserController {
         User user = userService.findByName(principal.getName());
         WeatherService.Coordinates coordinates = weatherService.getCoordinates(user.getHome_address());
         WeatherService.WeatherInfo weatherInfo = weatherService.getWeatherInfo(coordinates.getLatitude(), coordinates.getLongitude());
-        user.setWeatherCondition(weatherInfo.getCondition());
 
         return new ResponseEntity(user, HttpStatus.OK);
     }
