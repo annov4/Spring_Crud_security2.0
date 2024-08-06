@@ -12,7 +12,7 @@ public class Test {
         WeatherService weatherService = new WeatherService(restTemplate);
 
         try {
-            WeatherService.Coordinates coordinates = weatherService.getCoordinates("Саратов Чапаева 61");
+            WeatherService.Coordinates coordinates = weatherService.getCoordinates("Псков Максима Горького 27");
             WeatherService.WeatherInfo weatherInfo = weatherService.getWeatherInfo(coordinates.getLatitude(), coordinates.getLongitude());
 
             System.out.printf("Latitude: %f, Longitude: %f, Condition: %s%n",
