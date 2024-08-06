@@ -2,6 +2,7 @@ package annov4.crud.crud.service;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -18,17 +19,22 @@ public class WeatherService {
 
     private final RestTemplate restTemplate;
     private final String dadataUrl = "https://cleaner.dadata.ru/api/v1/clean/address";
-    private final String apiKey = "API_KEY";
-    private final String secretKey = "SECRET_KEY";
+
+    @Value("${weather.api-key}")
+    private String apiKey;
+
+    @Value("${weather.secret-key}")
+    private String secretKey;
+
+    @Value("${weather.access-key}")
+    private String accessKey;
     private final String yandexUrl = "https://api.weather.yandex.ru/v2/forecast";
-    private final String accessKey = "ACCESS_KEY";
 
     public WeatherService(RestTemplate restTemplate) {
         this.restTemplate = restTemplate;
     }
 
     public Coordinates getCoordinates(String address) throws IOException {
-        //Create connection
         URL url = new URL(dadataUrl);
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 

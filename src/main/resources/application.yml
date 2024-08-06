@@ -17,3 +17,7 @@ spring:
 roles:
   admin: ROLE_ADMIN
   user: ROLE_USER
+weather:
+  api-key: ${API_KEY}
+  secret-key: ${SECRET_KEY}
+  access-key: ${ACCESS_KEY}
