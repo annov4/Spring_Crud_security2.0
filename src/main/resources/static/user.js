@@ -29,7 +29,7 @@ $(document).ready(function() {
         $('#userTableBody').html(result);
 
         if (weatherCondition.toLowerCase() === 'rain') {
-            $('#umbrellaIcon').html('🌂');
+            $('#umbrellaIcon').html('<i class="bi bi-umbrella"></i>');
         } else {
             $('#umbrellaIcon').html('&nbsp;');
         }
