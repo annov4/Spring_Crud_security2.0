@@ -6,8 +6,10 @@ $(document).ready(function() {
             url: userUrl,
             method: 'GET',
             dataType: 'json',
-            success: function(user) {
-                getInformationAboutUser(user);
+            success: function(response) {
+                const user = response.user;
+                const weatherCondition = response.weatherCondition;
+                getInformationAboutUser(user, weatherCondition);
             }
         });
     }
@@ -26,8 +28,8 @@ function getInformationAboutUser(user) {
 
     result += `</tr>`;
     $('#userTableBody').html(result);
-    if (weatherInfo.condition.toLowerCase() === 'rain') {
-        $('#umbrellaIcon').html('<i class="bi bi-umbrella"></i>');
+    if (weatherCondition.toLowerCase() === 'rain') {
+        $('#umbrellaIcon').html('🌂');
     } else {
         $('#umbrellaIcon').html('&nbsp;');
     }

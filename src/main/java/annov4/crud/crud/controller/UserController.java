@@ -29,7 +29,9 @@ public class UserController {
         User user = userService.findByName(principal.getName());
         WeatherService.Coordinates coordinates = weatherService.getCoordinates(user.getHome_address());
         WeatherService.WeatherInfo weatherInfo = weatherService.getWeatherInfo(coordinates.getLatitude(), coordinates.getLongitude());
-
+        Map<String, Object> response = new HashMap<>();
+        response.put("user", user);
+        response.put("weatherCondition", weatherInfo.getCondition());
         return new ResponseEntity(user, HttpStatus.OK);
     }
 }
