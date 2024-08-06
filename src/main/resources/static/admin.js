@@ -85,7 +85,7 @@ function editUser() {
     let ageValue = $('#editAge').val();
     let nameValue = $('#editName').val();
     let emailValue = $('#editEmail').val();
-    let home_addressValue = $('#editHomeAddress').val();
+    let homeAddressValue = $('#editHomeAddress').val();
     let passwordValue = $('#editPassword').val();
     let currentPassword = $('#currentPassword').val();
     let passwordToUpdate = passwordValue === '' ? currentPassword : passwordValue;
@@ -99,7 +99,7 @@ function editUser() {
         age: ageValue,
         name: nameValue,
         email: emailValue,
-        home_address: home_addressValue,
+        home_address: homeAddressValue,
         password: passwordToUpdate,
         role: listOfRole
     };
@@ -135,7 +135,7 @@ function deleteModal(id) {
 function deleteUser() {
     const id = $('#deleteId').val();
     $.ajax({
-        url: url + '/' + id,
+        url: adminUrl + '/' + id,
         method: 'DELETE',
         success: function () {
             closeModal();
