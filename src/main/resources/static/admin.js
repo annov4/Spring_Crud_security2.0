@@ -8,7 +8,7 @@ function loadTable(listAllUsers) {
     <td>${user.age}</td>
     <td>${user.name}</td>
     <td>${user.email}</td>
-    <td>${user.home_address}</td>
+    <td>${user.address}</td>
     <td id=${'role' + user.id}>${user.role.map(r => r.role.substring(5)).join(', ')}</td>
                 <td><button class="btn btn-info" type="button"
                  data-bs-toggle="modal" data-bs-target="#editModal"
@@ -51,7 +51,7 @@ $(document).ready(function () {
                 age: $('#newAge').val(),
                 name: $('#newName').val(),
                 email: $('#newEmail').val(),
-                home_address: $('#newHomeAddress').val(),
+                address: $('#newAddress').val(),
                 password: $('#newPassword').val(),
                 role: rolesAddUser
             }),
@@ -73,7 +73,7 @@ function editModal(id) {
             $('#editAge').val(u.age);
             $('#editName').val(u.name);
             $('#editEmail').val(u.email);
-            $('#editHomeAddress').val(u.home_address);
+            $('#editAddress').val(u.address);
             $('#editPassword').val('');
             $('#currentPassword').val(u.password);
         }
@@ -85,7 +85,7 @@ function editUser() {
     let ageValue = $('#editAge').val();
     let nameValue = $('#editName').val();
     let emailValue = $('#editEmail').val();
-    let homeAddressValue = $('#editHomeAddress').val();
+    let addressValue = $('#editAddress').val();
     let passwordValue = $('#editPassword').val();
     let currentPassword = $('#currentPassword').val();
     let passwordToUpdate = passwordValue === '' ? currentPassword : passwordValue;
@@ -99,7 +99,7 @@ function editUser() {
         age: ageValue,
         name: nameValue,
         email: emailValue,
-        home_address: homeAddressValue,
+        address: addressValue,
         password: passwordToUpdate,
         role: listOfRole
     };
@@ -126,7 +126,7 @@ function deleteModal(id) {
             $('#deleteAge').val(u.age);
             $('#deleteName').val(u.name);
             $('#deleteEmail').val(u.email);
-            $('#deleteHomeAddress').val(u.home_address);
+            $('#deleteAddress').val(u.address);
             $('#deleteRole').val(u.role.map(r => r.role.substring(5)).join(", "));
         }
     });

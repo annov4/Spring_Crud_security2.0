@@ -27,7 +27,7 @@ public class UserController {
     @GetMapping
     public ResponseEntity getCurrentUser(Principal principal) throws IOException {
         User user = userService.findByName(principal.getName());
-        WeatherService.Coordinates coordinates = weatherService.getCoordinates(user.getHome_address());
+        WeatherService.Coordinates coordinates = weatherService.getCoordinates(user.getAddress());
         WeatherService.WeatherInfo weatherInfo = weatherService.getWeatherInfo(coordinates.getLatitude(), coordinates.getLongitude());
         Map<String, Object> response = new HashMap<>();
         response.put("user", user);

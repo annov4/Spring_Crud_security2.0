@@ -28,7 +28,7 @@ databaseChangeLog:
                   name: email
                   value: "user@mail.ru"
               - column:
-                  name: home_address
+                  name: address
                   value: "москва сухонская 11"
               - column:
                   name: password
@@ -46,7 +46,7 @@ databaseChangeLog:
                   name: email
                   value: "admin@mail.ru"
               - column:
-                  name: home_address
+                  name: address
                   value: "санкт-петербург оптиков 52"
               - column:
                   name: password

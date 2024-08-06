@@ -21,7 +21,7 @@ $(document).ready(function() {
 <td>${user.age}</td>
 <td>${user.name}</td>
 <td>${user.email}</td>
-<td>${user.home_address}</td>
+<td>${user.address}</td>
 <td>${user.role.map(r => r.role.substring(5)).join(', ')}</td>
 </tr>
 `;
