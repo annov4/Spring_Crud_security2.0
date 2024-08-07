@@ -19,18 +19,18 @@ import java.net.URL;
 public class WeatherService {
 
     private final RestTemplate restTemplate;
-    private final WeatherProperties weatherConfig;
+    private final WeatherProperties weatherProperties;
     private final String dadataUrl = "https://cleaner.dadata.ru/api/v1/clean/address";
 
     private final String yandexUrl = "https://api.weather.yandex.ru/v2/forecast";
 
 
-    public WeatherService(RestTemplate restTemplate, WeatherProperties weatherConfig) {
+    public WeatherService(RestTemplate restTemplate, WeatherProperties weatherProperties) {
         this.restTemplate = restTemplate;
-        this.weatherConfig = weatherConfig;
-        System.out.println("API_KEY: " + weatherConfig.getApiKey());
-        System.out.println("SECRET_KEY: " + weatherConfig.getSecretKey());
-        System.out.println("ACCESS_KEY: " + weatherConfig.getAccessKey());
+        this.weatherProperties = weatherProperties;
+        System.out.println("API_KEY: " + weatherProperties.getApiKey());
+        System.out.println("SECRET_KEY: " + weatherProperties.getSecretKey());
+        System.out.println("ACCESS_KEY: " + weatherProperties.getAccessKey());
     }
 
     public Coordinates getCoordinates(String address) throws IOException {
@@ -41,8 +41,8 @@ public class WeatherService {
 
         connection.setRequestProperty("Content-Type", "application/json");
         connection.setRequestProperty("Accept", "application/json");
-        connection.setRequestProperty("Authorization", "Token " + weatherConfig.getApiKey());
-        connection.setRequestProperty("X-Secret", weatherConfig.getSecretKey());
+        connection.setRequestProperty("Authorization", "Token " + weatherProperties.getApiKey());
+        connection.setRequestProperty("X-Secret", weatherProperties.getSecretKey());
         connection.setDoOutput(true);
 
         String jsonBody = "[ \"" + address + "\" ]";
@@ -83,7 +83,7 @@ public class WeatherService {
         String url = yandexUrl + "?lat=" + latitude + "&lon=" + longitude;
         HttpURLConnection connection = (HttpURLConnection) new URL(url).openConnection();
         connection.setRequestMethod("GET");
-        connection.setRequestProperty("X-Yandex-API-Key", weatherConfig.getAccessKey());
+        connection.setRequestProperty("X-Yandex-API-Key", weatherProperties.getAccessKey());
 
         try (BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()))) {
             String response = in.readLine();
