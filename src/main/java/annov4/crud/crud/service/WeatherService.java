@@ -3,6 +3,7 @@ package annov4.crud.crud.service;
 import annov4.crud.crud.config.WeatherConfig;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -14,6 +15,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 @Service
+@EnableConfigurationProperties(WeatherConfig.class)
 public class WeatherService {
 
     private final RestTemplate restTemplate;
