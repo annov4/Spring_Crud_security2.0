@@ -15,7 +15,6 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 @Service
-@EnableConfigurationProperties(WeatherProperties.class)
 public class WeatherService {
 
     private final RestTemplate restTemplate;
