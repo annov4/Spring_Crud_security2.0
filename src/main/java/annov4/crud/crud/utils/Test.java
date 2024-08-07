@@ -1,5 +1,6 @@
 package annov4.crud.crud.utils;
 
+import annov4.crud.crud.config.WeatherConfig;
 import annov4.crud.crud.service.WeatherService;
 import org.springframework.web.client.RestTemplate;
 
@@ -9,7 +10,8 @@ public class Test {
     public static void main(String[] args) {
 
         RestTemplate restTemplate = new RestTemplate();
-        WeatherService weatherService = new WeatherService(restTemplate);
+        WeatherConfig weatherConfig = new WeatherConfig();
+        WeatherService weatherService = new WeatherService(restTemplate, weatherConfig);
 
         try {
             WeatherService.Coordinates coordinates = weatherService.getCoordinates("прасковея");

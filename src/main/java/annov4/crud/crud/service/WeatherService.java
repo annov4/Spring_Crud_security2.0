@@ -1,8 +1,8 @@
 package annov4.crud.crud.service;
 
+import annov4.crud.crud.config.WeatherConfig;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -13,25 +13,22 @@ import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-
 @Service
 public class WeatherService {
 
     private final RestTemplate restTemplate;
+    private final WeatherConfig weatherConfig;
     private final String dadataUrl = "https://cleaner.dadata.ru/api/v1/clean/address";
 
-    @Value("${weather.api-key}")
-    private String apiKey;
-
-    @Value("${weather.secret-key}")
-    private String secretKey;
-
-    @Value("${weather.access-key}")
-    private String accessKey;
     private final String yandexUrl = "https://api.weather.yandex.ru/v2/forecast";
 
-    public WeatherService(RestTemplate restTemplate) {
+
+    public WeatherService(RestTemplate restTemplate, WeatherConfig weatherConfig) {
         this.restTemplate = restTemplate;
+        this.weatherConfig = weatherConfig;
+        System.out.println("API_KEY: " + weatherConfig.getApiKey());
+        System.out.println("SECRET_KEY: " + weatherConfig.getSecretKey());
+        System.out.println("ACCESS_KEY: " + weatherConfig.getAccessKey());
     }
 
     public Coordinates getCoordinates(String address) throws IOException {
@@ -42,8 +39,8 @@ public class WeatherService {
 
         connection.setRequestProperty("Content-Type", "application/json");
         connection.setRequestProperty("Accept", "application/json");
-        connection.setRequestProperty("Authorization", "Token " + apiKey);
-        connection.setRequestProperty("X-Secret", secretKey);
+        connection.setRequestProperty("Authorization", "Token " + weatherConfig.getApiKey());
+        connection.setRequestProperty("X-Secret", weatherConfig.getSecretKey());
         connection.setDoOutput(true);
 
         String jsonBody = "[ \"" + address + "\" ]";
@@ -84,7 +81,7 @@ public class WeatherService {
         String url = yandexUrl + "?lat=" + latitude + "&lon=" + longitude;
         HttpURLConnection connection = (HttpURLConnection) new URL(url).openConnection();
         connection.setRequestMethod("GET");
-        connection.setRequestProperty("X-Yandex-API-Key", accessKey);
+        connection.setRequestProperty("X-Yandex-API-Key", weatherConfig.getAccessKey());
 
         try (BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()))) {
             String response = in.readLine();
@@ -132,4 +129,5 @@ public class WeatherService {
             return condition;
         }
     }
+
 }
