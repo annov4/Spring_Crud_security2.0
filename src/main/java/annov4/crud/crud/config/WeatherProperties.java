@@ -3,11 +3,11 @@ package annov4.crud.crud.config;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.context.annotation.Configuration;
+import org.springframework.stereotype.Component;
 
 @Getter
 @Setter
-@Configuration
+@Component
 @ConfigurationProperties(prefix = "weather")
 public class WeatherProperties {
     private String apiKey;
