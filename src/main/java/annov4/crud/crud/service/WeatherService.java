@@ -1,6 +1,6 @@
 package annov4.crud.crud.service;
 
-import annov4.crud.crud.config.WeatherConfig;
+import annov4.crud.crud.config.WeatherProperties;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -15,17 +15,17 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 @Service
-@EnableConfigurationProperties(WeatherConfig.class)
+@EnableConfigurationProperties(WeatherProperties.class)
 public class WeatherService {
 
     private final RestTemplate restTemplate;
-    private final WeatherConfig weatherConfig;
+    private final WeatherProperties weatherConfig;
     private final String dadataUrl = "https://cleaner.dadata.ru/api/v1/clean/address";
 
     private final String yandexUrl = "https://api.weather.yandex.ru/v2/forecast";
 
 
-    public WeatherService(RestTemplate restTemplate, WeatherConfig weatherConfig) {
+    public WeatherService(RestTemplate restTemplate, WeatherProperties weatherConfig) {
         this.restTemplate = restTemplate;
         this.weatherConfig = weatherConfig;
         System.out.println("API_KEY: " + weatherConfig.getApiKey());
