@@ -7,7 +7,7 @@ services:
       - POSTGRES_USER=${DB_USER:-user}
       - POSTGRES_PASSWORD=${DB_PASSWORD:-user}
     ports:
-      - "5435:5432"
+      - "5432:5432"
     env_file: ".env"
   app:
     image: annov4/spring_crud_annov4:latest
