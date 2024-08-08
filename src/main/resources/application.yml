@@ -2,7 +2,7 @@ spring:
   liquibase:
     enabled: true
   datasource:
-    url: jdbc:postgresql://localhost:5435/annov4
+    url: jdbc:postgresql://localhost:5432/annov4
     username: user
     password: 377226535
   jpa:
