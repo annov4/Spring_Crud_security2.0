@@ -57,7 +57,7 @@ public class WeatherService {
 
             return parseCoordinates(response.toString());
         } else {
-            throw new IOException("Failed: " + responseCode);
+            throw new IOException("Failed:" + responseCode);
         }
     }
 
