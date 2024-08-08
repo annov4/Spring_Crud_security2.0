@@ -8,12 +8,12 @@ services:
       - POSTGRES_PASSWORD=${DB_PASSWORD:-user}
     ports:
       - "5432:5432"
-    env_file: ".env"
+    env_file: "file.env"
   app:
     image: annov4/spring_crud_annov4:latest
     ports:
       - "8080:8080"
-    env_file: ".env"
+    env_file: "file.env"
     depends_on:
       - annov_db
     environment:
