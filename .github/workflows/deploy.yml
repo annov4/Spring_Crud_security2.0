@@ -11,24 +11,15 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      - name: Ensure target directory exists
-        uses: appleboy/ssh-action@master
-        with:
-            host: ${{ secrets.REMOTE_SERVER }}
-            username: ${{ secrets.REMOTE_USER }}
-            key: ${{ secrets.SSH_PRIVATE_KEY }}
-            port: 22
-            script: mkdir -p /home/${{ secrets.REMOTE_USER }}/test/Spring_Crud_security2.0/
-
       - name: Copy docker-compose.yml to server
         uses: appleboy/scp-action@master
         with:
-                host: ${{ secrets.REMOTE_SERVER }}
-                username: ${{ secrets.REMOTE_USER }}
-                key: ${{ secrets.SSH_PRIVATE_KEY }}
-                port: 22
-                source: "docker-compose.yml"
-                target: "/home/${{ secrets.REMOTE_USER }}/test/Spring_Crud_security2.0/docker-compose.yml"
+          host: ${{ secrets.REMOTE_SERVER }}
+          username: ${{ secrets.REMOTE_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          port: 22
+          source: "docker-compose.yml"
+          target: "/home/${{ secrets.REMOTE_USER }}/test/Spring_Crud_security2.0/docker-compose.yml"
 
   build_and_push_images:
     name: Push image to DockerHub
