@@ -32,6 +32,13 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
+      - name: Create SSH key file
+        run: echo "${{ secrets.SSH_PRIVATE_KEY }}" > key.pem
+        shell: bash
+
+      - name: Change permission for the key
+        run: chmod 600 key.pem
+        shell: bash
 
       - name: Copy docker-compose.yml to remote server
         run: scp -i ${{ secrets.SSH_PRIVATE_KEY }} ./docker-compose.yml ${{ secrets.REMOTE_USER }}@${{ secrets.REMOTE_SERVER }}:/home/${{ secrets.REMOTE_USER }}/test/Spring_Crud_security2.0/
