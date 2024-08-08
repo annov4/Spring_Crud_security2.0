@@ -24,10 +24,6 @@ public class WeatherService {
     public WeatherService(RestTemplate restTemplate, WeatherProperties weatherProperties) {
         this.restTemplate = restTemplate;
         this.weatherProperties = weatherProperties;
-
-        System.out.println("API_KEY: " + weatherProperties.getApiKey());
-        System.out.println("SECRET_KEY: " + weatherProperties.getSecretKey());
-        System.out.println("ACCESS_KEY: " + weatherProperties.getAccessKey());
     }
 
     public Coordinates getCoordinates(String address) throws IOException {
@@ -61,7 +57,7 @@ public class WeatherService {
 
             return parseCoordinates(response.toString());
         } else {
-            throw new IOException("Failed to get response from DaData API, HTTP response code: " + responseCode);
+            throw new IOException("Failed: " + responseCode);
         }
     }
 
