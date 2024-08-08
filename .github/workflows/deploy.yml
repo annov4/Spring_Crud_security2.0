@@ -37,6 +37,7 @@ jobs:
           file: ./Dockerfile
           push: true
           tags: annov4/spring_crud_annov4:latest
+
   deploy:
     name: Deploy
     runs-on: ubuntu-latest
