@@ -45,6 +45,7 @@ jobs:
             sudo -S docker stop spring_crud_security20_app_1
             sudo -S docker rm spring_crud_security20_app_1
             sudo -S docker rmi annov4/spring_crud_annov4:latest
+            sudo docker-compose down
             sudo docker-compose -f /home/${{ secrets.REMOTE_USER }}/test/Spring_Crud_security2.0/docker-compose.yml pull
             sudo docker-compose -f /home/${{ secrets.REMOTE_USER }}/test/Spring_Crud_security2.0/docker-compose.yml up -d --remove-orphans
             sudo -S docker-compose up --force-recreate -d           
