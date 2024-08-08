@@ -2,9 +2,9 @@ spring:
   liquibase:
     enabled: true
   datasource:
-    url: jdbc:postgresql://localhost:5432/annov4
-    username: user
-    password: 377226535
+    url: jdbc:postgresql://annov_db:5432/postgres
+    username: ${DB_USER}
+    password: ${DB_PASSWORD}
   jpa:
     properties:
       hibernate:
