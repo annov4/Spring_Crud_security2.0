@@ -17,6 +17,6 @@ roles:
   admin: ROLE_ADMIN
   user: ROLE_USER
 weather:
-  api-key: cb7093256c8ed475de23fb01148b5f690f3206a7
-  secret-key: 47ed84c5594a87a7ba53a7edb3bff33022d66516
-  access-key: 3cf5af7e-da4a-403d-8864-b452374ec1bc
+  api-key: ${API_KEY}
+  secret-key: ${SECRET_KEY}
+  access-key: ${ACCESS_KEY}
