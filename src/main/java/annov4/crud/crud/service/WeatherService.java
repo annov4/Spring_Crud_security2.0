@@ -34,6 +34,7 @@ public class WeatherService {
     public WeatherService(RestTemplate restTemplate, WeatherProperties weatherProperties) {
         this.restTemplate = restTemplate;
         this.weatherProperties = weatherProperties;
+
         logEnv();
     }
 
