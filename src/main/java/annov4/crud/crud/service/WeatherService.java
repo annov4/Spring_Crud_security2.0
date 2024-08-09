@@ -43,7 +43,6 @@ public class WeatherService {
         connection.setRequestProperty("Accept", "application/json");
         connection.setRequestProperty("Authorization", "Token " + weatherProperties.getApiKey());
         connection.setRequestProperty("X-Secret", weatherProperties.getSecretKey());
-        logger.info("Headers:");
         logger.info("Token {}", weatherProperties.getApiKey());
         logger.info("X-Secret {}", weatherProperties.getSecretKey());
 
