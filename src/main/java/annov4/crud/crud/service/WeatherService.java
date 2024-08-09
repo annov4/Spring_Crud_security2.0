@@ -46,8 +46,8 @@ public class WeatherService {
         connection.setRequestProperty("X-Secret", weatherProperties.getSecretKey());
 
 
-        logger.info("Token {}", weatherProperties.getApiKey());
-        logger.info("X-Secret {}", weatherProperties.getSecretKey());
+        logger.info("ApiKey {}", weatherProperties.getApiKey());
+        logger.info("SecretKey {}", weatherProperties.getSecretKey());
 
 
         connection.setDoOutput(true);
@@ -91,6 +91,7 @@ public class WeatherService {
         HttpURLConnection connection = (HttpURLConnection) new URL(url).openConnection();
         connection.setRequestMethod("GET");
         connection.setRequestProperty("X-Yandex-API-Key", weatherProperties.getAccessKey());
+        logger.info("AccessKey {}", weatherProperties.getAccessKey());
 
         try (BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()))) {
             String response = in.readLine();
