@@ -12,5 +12,6 @@ import org.springframework.stereotype.Component;
 public class WeatherProperties {
     private String apiKey;
     private String secretKey;
+
     private String accessKey;
 }
