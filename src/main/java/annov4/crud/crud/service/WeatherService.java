@@ -59,6 +59,8 @@ public class WeatherService {
         }
 
         int responseCode = connection.getResponseCode();
+        logger.info("responseCode {}", connection.getResponseCode());
+
         if (responseCode == HttpURLConnection.HTTP_OK) {
             BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream(), "UTF-8"));
             String line;
@@ -75,6 +77,7 @@ public class WeatherService {
     }
 
     private Coordinates parseCoordinates(String jsonResponse) throws IOException {
+
         ObjectMapper mapper = new ObjectMapper();
         JsonNode root = mapper.readTree(jsonResponse);
         JsonNode addressNode = root.get(0);
