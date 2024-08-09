@@ -38,6 +38,10 @@ public class WeatherService {
         URL url = new URL(dadataUrl);
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 
+        logger.info("ApiKey {}", weatherProperties.getApiKey());
+        logger.info("SecretKey {}", weatherProperties.getSecretKey());
+
+
         connection.setRequestMethod("POST");
 
         connection.setRequestProperty("Content-Type", "application/json");
@@ -46,8 +50,7 @@ public class WeatherService {
         connection.setRequestProperty("X-Secret", weatherProperties.getSecretKey());
 
 
-        logger.info("ApiKey {}", weatherProperties.getApiKey());
-        logger.info("SecretKey {}", weatherProperties.getSecretKey());
+
 
 
         connection.setDoOutput(true);
