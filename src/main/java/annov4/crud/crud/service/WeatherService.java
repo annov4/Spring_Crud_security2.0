@@ -5,6 +5,8 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -13,11 +15,15 @@ import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
+
+
 @Service
 public class WeatherService {
 
     private final RestTemplate restTemplate;
     private final WeatherProperties weatherProperties;
+
+    private static final Logger logger = LoggerFactory.getLogger(WeatherService.class);
     private final String dadataUrl = "https://cleaner.dadata.ru/api/v1/clean/address";
 
     private final String yandexUrl = "https://api.weather.yandex.ru/v2/forecast";
@@ -27,6 +33,7 @@ public class WeatherService {
     }
 
     public Coordinates getCoordinates(String address) throws IOException {
+        logger.info("coordinates {} :", address);
         URL url = new URL(dadataUrl);
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 
@@ -73,6 +80,7 @@ public class WeatherService {
 
     public WeatherInfo getWeatherInfo(double latitude, double longitude) throws IOException {
         String url = yandexUrl + "?lat=" + latitude + "&lon=" + longitude;
+        logger.info("weather {}", url);
         HttpURLConnection connection = (HttpURLConnection) new URL(url).openConnection();
         connection.setRequestMethod("GET");
         connection.setRequestProperty("X-Yandex-API-Key", weatherProperties.getAccessKey());
