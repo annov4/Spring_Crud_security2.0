@@ -40,10 +40,10 @@ public class WeatherService {
 
         connection.setRequestMethod("POST");
 
-        connection.setRequestProperty("Content-Type", "application/json");
-        connection.setRequestProperty("Accept", "application/json");
-        connection.setRequestProperty("Authorization", "Token " + weatherProperties.getApiKey());
-        connection.setRequestProperty("X-Secret", weatherProperties.getSecretKey());
+        connection.setRequestProperty("Content-Type: ", "application/json");
+        connection.setRequestProperty("Accept: ", "application/json");
+        connection.setRequestProperty("Authorization:", "Token " + weatherProperties.getApiKey());
+        connection.setRequestProperty("X-Secret: ", weatherProperties.getSecretKey());
 
 
         logger.info("ApiKey {}", weatherProperties.getApiKey());
