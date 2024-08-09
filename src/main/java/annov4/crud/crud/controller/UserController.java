@@ -33,10 +33,10 @@ public class UserController {
         User user = userService.findByName(username);
 
         WeatherService.Coordinates coordinates = weatherService.getCoordinates(user.getAddress());
-        logger.info("Coordinates: latitude={}, longitude={}", coordinates.getLatitude(), coordinates.getLongitude());
+        logger.info("latitude={}, longitude={}", coordinates.getLatitude(), coordinates.getLongitude());
 
         WeatherService.WeatherInfo weatherInfo = weatherService.getWeatherInfo(coordinates.getLatitude(), coordinates.getLongitude());
-        logger.info("info : {}", weatherInfo.getCondition());
+        logger.info("weatherInfo : {}", weatherInfo.getCondition());
 
         Map<String, Object> response = new HashMap<>();
         response.put("user", user);

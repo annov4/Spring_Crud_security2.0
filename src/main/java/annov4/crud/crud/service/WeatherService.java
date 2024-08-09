@@ -43,10 +43,16 @@ public class WeatherService {
         connection.setRequestProperty("Accept", "application/json");
         connection.setRequestProperty("Authorization", "Token " + weatherProperties.getApiKey());
         connection.setRequestProperty("X-Secret", weatherProperties.getSecretKey());
+        logger.info("Headers:");
+        logger.info("Token {}", weatherProperties.getApiKey());
+        logger.info("X-Secret {}", weatherProperties.getSecretKey());
+
+
+
+
         connection.setDoOutput(true);
 
         String jsonBody = "[ \"" + address + "\" ]";
-        logger.info("jsonBody: {}", jsonBody);
         try (OutputStream os = connection.getOutputStream()) {
             byte[] input = jsonBody.getBytes("UTF-8");
             os.write(input, 0, input.length);
