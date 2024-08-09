@@ -89,6 +89,7 @@ public class WeatherService {
         JsonNode root = mapper.readTree(json);
         JsonNode factNode = root.path("fact");
         String condition = factNode.path("condition").asText();
+
         return new WeatherInfo(condition);
     }
 
