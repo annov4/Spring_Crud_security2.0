@@ -50,6 +50,7 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
             cd /home/${{ secrets.REMOTE_USER }}/crud/
+            
             echo DB_USER=${{ secrets.DB_USER }} >> .env
             echo DB_PASSWORD=${{ secrets.DB_PASSWORD }} >> .env
             echo DB_NAME=${{ secrets.DB_NAME }} >> .env
