@@ -19,8 +19,5 @@ services:
     environment:
       - SPRING_DATASOURCE_USERNAME=${DB_USER}
       - SPRING_DATASOURCE_PASSWORD=${DB_PASSWORD}
-      - API_KEY=${API_KEY}
-      - SECRET_KEY=${SECRET_KEY}
-      - ACCESS_KEY=${ACCESS_KEY}
 volumes:
   pg_annov:
