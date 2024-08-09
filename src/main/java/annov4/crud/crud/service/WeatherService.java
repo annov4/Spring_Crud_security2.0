@@ -14,7 +14,7 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
-
+import java.util.Map;
 
 
 @Service
@@ -30,6 +30,7 @@ public class WeatherService {
     public WeatherService(RestTemplate restTemplate, WeatherProperties weatherProperties) {
         this.restTemplate = restTemplate;
         this.weatherProperties = weatherProperties;
+        logEnv();
     }
 
     public Coordinates getCoordinates(String address) throws IOException {
@@ -43,10 +44,10 @@ public class WeatherService {
         connection.setRequestProperty("Accept", "application/json");
         connection.setRequestProperty("Authorization", "Token " + weatherProperties.getApiKey());
         connection.setRequestProperty("X-Secret", weatherProperties.getSecretKey());
+
+
         logger.info("Token {}", weatherProperties.getApiKey());
         logger.info("X-Secret {}", weatherProperties.getSecretKey());
-
-
 
 
         connection.setDoOutput(true);
@@ -105,6 +106,11 @@ public class WeatherService {
         String condition = factNode.path("condition").asText();
 
         return new WeatherInfo(condition);
+    }
+    private void logEnv() {
+        logger.info("env:");
+        Map<String, String> environment = System.getenv();
+        environment.forEach((k, v) -> logger.info("{}: {}", k, v));
     }
 
     public static class Coordinates {
