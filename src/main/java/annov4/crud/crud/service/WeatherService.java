@@ -46,6 +46,7 @@ public class WeatherService {
         connection.setDoOutput(true);
 
         String jsonBody = "[ \"" + address + "\" ]";
+        logger.info("jsonBody: {}", jsonBody);
         try (OutputStream os = connection.getOutputStream()) {
             byte[] input = jsonBody.getBytes("UTF-8");
             os.write(input, 0, input.length);
