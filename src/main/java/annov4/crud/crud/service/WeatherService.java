@@ -3,6 +3,10 @@ package annov4.crud.crud.service;
 import annov4.crud.crud.config.WeatherProperties;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.slf4j.Logger;
@@ -35,47 +39,23 @@ public class WeatherService {
 
     public Coordinates getCoordinates(String address) throws IOException {
         logger.info("coordinates {} :", address);
-        URL url = new URL(dadataUrl);
-        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+        HttpHeaders headers = new HttpHeaders();
 
-        logger.info("ApiKey {}", weatherProperties.getApiKey());
-        logger.info("SecretKey {}", weatherProperties.getSecretKey());
-
-
-        connection.setRequestMethod("POST");
-
-        connection.setRequestProperty("Content-Type", "application/json");
-        connection.setRequestProperty("Accept", "application/json");
-        connection.setRequestProperty("Authorization", "Token" + weatherProperties.getApiKey());
-        connection.setRequestProperty("X-Secret", weatherProperties.getSecretKey());
-
-
-
-
-
-        connection.setDoOutput(true);
-
+        // Установка заголовков
+        headers.set(HttpHeaders.CONTENT_TYPE, "application/json");
+        headers.set(HttpHeaders.ACCEPT, "application/json");
+        headers.set(HttpHeaders.AUTHORIZATION, "Token " + weatherProperties.getApiKey());
+        headers.set("X-Secret",  weatherProperties.getSecretKey());
+        // Установка тела запроса
         String jsonBody = "[ \"" + address + "\" ]";
-        try (OutputStream os = connection.getOutputStream()) {
-            byte[] input = jsonBody.getBytes("UTF-8");
-            os.write(input, 0, input.length);
-        }
+        HttpEntity<String> request = new HttpEntity<>(jsonBody, headers);
 
-        int responseCode = connection.getResponseCode();
-        logger.info("responseCode {}", connection.getResponseCode());
+        ResponseEntity<String> response = restTemplate.exchange(dadataUrl, HttpMethod.POST, request, String.class);
 
-        if (responseCode == HttpURLConnection.HTTP_OK) {
-            BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream(), "UTF-8"));
-            String line;
-            StringBuilder response = new StringBuilder();
-
-            while ((line = in.readLine()) != null) {
-                response.append(line);
-            }
-            in.close();
-            return parseCoordinates(response.toString());
+        if (response.getStatusCode().is2xxSuccessful() && response.getBody() != null) {
+            return parseCoordinates(response.getBody());
         } else {
-            throw new IOException("Failed:" + responseCode);
+            throw new IOException("Failed to get coordinates: " + response.getStatusCodeValue());
         }
     }
 
